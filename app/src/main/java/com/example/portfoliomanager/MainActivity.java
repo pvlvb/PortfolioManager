@@ -14,5 +14,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_menu);
         bottomNavigationView.setSelectedItemId(R.id.home);
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new MainFragment()).commit();
+        }
     }
 }

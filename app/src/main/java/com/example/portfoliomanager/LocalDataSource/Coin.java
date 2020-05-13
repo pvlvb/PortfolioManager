@@ -1,6 +1,4 @@
-package com.example.portfoliomanager.MainFragmentDatabase;
-
-import android.net.Uri;
+package com.example.portfoliomanager.LocalDataSource;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
