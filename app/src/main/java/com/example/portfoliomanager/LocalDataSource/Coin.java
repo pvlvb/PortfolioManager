@@ -14,16 +14,14 @@ public class Coin {
 
     private double price;
 
-    private double volume;
 
     private double change24h;
 
-    public Coin(int id, String image, String ticker, double price, double volume, double change24h) {
+    public Coin(int id, String image, String ticker, double price, double change24h) {
         this.id = id;
         this.image = image;
         this.ticker = ticker;
         this.price = price;
-        this.volume = volume;
         this.change24h = change24h;
     }
 
@@ -43,10 +41,6 @@ public class Coin {
 
     public double getPrice() {
         return price;
-    }
-
-    public double getVolume() {
-        return volume;
     }
 
     public double getChange24h() {

@@ -5,6 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.portfoliomanager.LocalDataSource.Coin;
 import com.example.portfoliomanager.MainFragmentRepository.Repository;
@@ -18,15 +20,10 @@ public class MainFragmentViewModel extends AndroidViewModel {
 
     public MainFragmentViewModel(@NonNull Application application) {
         super(application);
-        repository = new Repository(application);
-        coins = repository.getAllCoins();
+        repository = PortfolioApp.getInstance().getRepository();
     }
 
-    public void insert(List<Coin> coins){
-        repository.insert(coins);
-    }
-
-    public LiveData<List<Coin>> getCoins(){
-        return coins;
+    public LiveData<List<Coin>> getData(){
+        return repository.refreshData();
     }
 }

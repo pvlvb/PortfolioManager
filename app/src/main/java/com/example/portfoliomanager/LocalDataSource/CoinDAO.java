@@ -28,4 +28,6 @@ public interface CoinDAO  {
     @Query("SELECT * FROM coin_table ORDER BY id ASC")
     LiveData<List<Coin>> getAllCoins();
 
+    @Query("DELETE FROM coin_table")
+    void deleteAll();
 }

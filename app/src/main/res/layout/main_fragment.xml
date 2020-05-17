@@ -2,13 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
 
-
+    <TextView
+        android:id="@+id/main_fragment_top5_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_fragment_top5crypto"
+        android:layout_gravity="center" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name                                                                 Price / Change"
+        android:paddingStart="55dp" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/top5_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/mainfragment_coin_teim" />
+        tools:listitem="@layout/mainfragment_coin_item" />
 
 </LinearLayout>

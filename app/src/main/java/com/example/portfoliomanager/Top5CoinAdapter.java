@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.portfoliomanager.LocalDataSource.Coin;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,22 +22,22 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
     @NonNull
     @Override
     public CoinHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mainfragment_coin_teim,parent,false);
+        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mainfragment_coin_item,parent,false);
         return new CoinHolder(ItemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CoinHolder holder, int position) {
         Coin curr = coins.get(position);
+        Picasso.get().load("https://s2.coinmarketcap.com/static/img/coins/64x64/1.png").into(holder.icon);
         holder.textViewTicker.setText(curr.getTicker());
-        holder.textViewPrice.setText(String.valueOf(curr.getPrice()));
-        holder.textViewVolume.setText(String.valueOf(curr.getVolume()));
+        holder.textViewPrice.setText("$" + String.valueOf(curr.getPrice()));
         holder.textViewChange.setText(String.valueOf(curr.getChange24h()) + "%");
         if(curr.getChange24h()>=0){
-            holder.linearLayout.setBackgroundColor(Color.parseColor("#85c98c"));
+            holder.textViewChange.setTextColor(Color.parseColor("#85c98c"));
         }
         else{
-            holder.linearLayout.setBackgroundColor(Color.parseColor("#c25959"));
+            holder.textViewChange.setTextColor(Color.parseColor("#c25959"));
         }
     }
 
@@ -58,16 +58,15 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
         private TextView textViewPrice;
         private TextView textViewVolume;
         private TextView textViewChange;
-        private LinearLayout linearLayout;
+
 
         public CoinHolder(@NonNull View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.img);
             textViewTicker = itemView.findViewById(R.id.ticker);
             textViewPrice = itemView.findViewById(R.id.price);
-            textViewVolume = itemView.findViewById(R.id.volume);
             textViewChange = itemView.findViewById(R.id.change);
-            linearLayout = itemView.findViewById(R.id.linear_layout);
+
         }
     }
 }

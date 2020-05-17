@@ -3,4 +3,5 @@
     <string name="portofolio">Portofolio</string>
     <string name="main_page">Main page</string>
     <string name="settings">Settings</string>
+    <string name="main_fragment_top5crypto">Top 5 Cryptocurrencies by Market Capitalization</string>
 </resources>

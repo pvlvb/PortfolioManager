@@ -8,49 +8,36 @@ import androidx.lifecycle.LiveData;
 import com.example.portfoliomanager.LocalDataSource.Coin;
 import com.example.portfoliomanager.LocalDataSource.CoinDAO;
 import com.example.portfoliomanager.LocalDataSource.CoinDB;
+import com.example.portfoliomanager.LocalDataSource.LocalDataSource;
+import com.example.portfoliomanager.MainFragmentNetwork.RemoteDataSource;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Repository {
-    private CoinDAO coinDAO;
+    private LocalDataSource localDataSource;
+    private RemoteDataSource remoteDataSource;
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private LiveData<List<Coin>> coins;
 
-    public Repository(Application application){
-        CoinDB db = CoinDB.getInstance(application);
-        coinDAO = db.coinDao();
-        coins = coinDAO.getAllCoins();
+    public Repository(LocalDataSource localDataSource, RemoteDataSource remoteDataSource){
+        this.localDataSource = localDataSource;
+        this.remoteDataSource = remoteDataSource;
     }
 
-    public void insert(List<Coin> coins){
-        new InsertCoinsAsyncTask(coinDAO).execute(coins);
-    }
-
-//    public void update(Coin coin){
-//
-//    }
-//
-//    public void delete(Coin coin){
-//
-//    }
-//
-//    public void deleteAllCoins(){
-//
-//    }
-
-    public LiveData<List<Coin>> getAllCoins(){
-        return coins;
-    }
-
-    private static class InsertCoinsAsyncTask extends AsyncTask<List<Coin>, Void, Void>{
-        private CoinDAO coinDAO;
-
-        private InsertCoinsAsyncTask(CoinDAO coinDAO){
-            this.coinDAO = coinDAO;
-        }
-        @Override
-        protected Void doInBackground(List<Coin>... lists) {
-            coinDAO.insertCoins(lists[0]);
-            return null;
-        }
+    public LiveData<List<Coin>> refreshData(){
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    localDataSource.putData(remoteDataSource.updateData());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return localDataSource.getData();
     }
 }
