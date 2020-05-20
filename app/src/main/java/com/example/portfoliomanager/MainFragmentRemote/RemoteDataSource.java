@@ -1,19 +1,11 @@
-package com.example.portfoliomanager.MainFragmentNetwork;
+package com.example.portfoliomanager.MainFragmentRemote;
 
-import android.util.Log;
-
-import com.example.portfoliomanager.MainFragmentNetwork.CoinMarketCapAPI;
-import com.example.portfoliomanager.MainFragmentNetwork.API2ObjectClasses.Result;
-import com.example.portfoliomanager.MainFragmentNetwork.API2ObjectClasses.Status;
+import com.example.portfoliomanager.MainFragmentRemote.CMC_TopMarketCap_Converter.Result;
 import com.example.portfoliomanager.PortfolioApp;
 
 import java.io.IOException;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class RemoteDataSource {
@@ -26,4 +18,5 @@ public class RemoteDataSource {
         }
         else return null;
     }
+
 }

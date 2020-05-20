@@ -1,7 +1,4 @@
-package com.example.portfoliomanager.MainFragmentNetwork.API2ObjectClasses;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.example.portfoliomanager.MainFragmentRemote.CMC_TopMarketCap_Converter;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

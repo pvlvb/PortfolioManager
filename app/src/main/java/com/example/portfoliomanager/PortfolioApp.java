@@ -3,12 +3,11 @@ package com.example.portfoliomanager;
 import android.app.Application;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Room;
 
-import com.example.portfoliomanager.LocalDataSource.CoinDB;
-import com.example.portfoliomanager.LocalDataSource.LocalDataSource;
-import com.example.portfoliomanager.MainFragmentNetwork.CoinMarketCapAPI;
-import com.example.portfoliomanager.MainFragmentNetwork.RemoteDataSource;
+import com.example.portfoliomanager.MainFragmentLocal.CoinDB;
+import com.example.portfoliomanager.MainFragmentLocal.LocalDataSource;
+import com.example.portfoliomanager.MainFragmentRemote.CoinMarketCapAPI;
+import com.example.portfoliomanager.MainFragmentRemote.RemoteDataSource;
 import com.example.portfoliomanager.MainFragmentRepository.Repository;
 
 import retrofit2.Retrofit;

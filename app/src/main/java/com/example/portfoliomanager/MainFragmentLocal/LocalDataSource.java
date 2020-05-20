@@ -1,9 +1,9 @@
-package com.example.portfoliomanager.LocalDataSource;
+package com.example.portfoliomanager.MainFragmentLocal;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.portfoliomanager.MainFragmentNetwork.API2ObjectClasses.Datum;
-import com.example.portfoliomanager.MainFragmentNetwork.API2ObjectClasses.Result;
+import com.example.portfoliomanager.MainFragmentRemote.CMC_TopMarketCap_Converter.Datum;
+import com.example.portfoliomanager.MainFragmentRemote.CMC_TopMarketCap_Converter.Result;
 import com.example.portfoliomanager.PortfolioApp;
 
 import java.text.DecimalFormat;
@@ -23,9 +23,11 @@ public class LocalDataSource {
         if (resp != null) {
             coinDAO.deleteAll();
             List<Datum> datumList = resp.getData();
+            Integer id = 0; // adding custom id, because CMC have their own ids
             for (Datum t : datumList) {
-                double price = t.getQuote().getUSD().getPrice();
 
+                double price = t.getQuote().getUSD().getPrice();
+                double percentchange = t.getQuote().getUSD().getPercentChange24h();
                 if (price >= 1.0) {
                     DecimalFormat df = new DecimalFormat("#.##");
                     price = Double.parseDouble(df.format(price));
@@ -33,14 +35,16 @@ public class LocalDataSource {
                     DecimalFormat df = new DecimalFormat("#.###");
                     price = Double.parseDouble(df.format(price));
                 }
-                double percentchange = t.getQuote().getUSD().getPercentChange24h();
                 DecimalFormat df = new DecimalFormat("#.##");
                 percentchange = Double.parseDouble(df.format(percentchange));
-                coinDAO.insertCoin(new Coin(t.getId(), "", t.getName(), price, percentchange));
+
+
+                coinDAO.insertCoin(new Coin(id, "https://s2.coinmarketcap.com/static/img/coins/64x64/"+ t.getId() +".png", t.getName(), price, percentchange));
+                id++;
             }
         }
         else{
-            //TODO add notification on data unsucessful loading
+            //TODO add notification on data unsuccessful loading
         }
     }
 }

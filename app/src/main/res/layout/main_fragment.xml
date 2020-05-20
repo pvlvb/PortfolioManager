@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,16 +10,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/main_fragment_top5crypto"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name                                                                 Price / Change"
-        android:paddingStart="55dp" />
+        android:layout_below="@+id/main_fragment_top5_title"
+        android:text="Name"
+        android:layout_alignParentLeft="true" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/top5_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/mainfragment_coin_item" />
+        android:layout_height="234dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="36dp"
+        tools:listitem="@layout/mainfragment_coin_item_top5_mc" />
 
-</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="-28dp"
+
+        tools:listitem="@layout/mainfragment_coin_item_top5_gainers" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        tools:listitem="@layout/mainfragment_coin_item_top5_gainers" />
+
+
+
+</RelativeLayout>

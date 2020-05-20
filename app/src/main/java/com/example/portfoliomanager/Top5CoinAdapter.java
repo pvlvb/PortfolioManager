@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.portfoliomanager.LocalDataSource.Coin;
+import com.example.portfoliomanager.MainFragmentLocal.Coin;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,14 +22,14 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
     @NonNull
     @Override
     public CoinHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mainfragment_coin_item,parent,false);
+        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mainfragment_coin_item_top5_mc,parent,false);
         return new CoinHolder(ItemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CoinHolder holder, int position) {
         Coin curr = coins.get(position);
-        Picasso.get().load("https://s2.coinmarketcap.com/static/img/coins/64x64/1.png").into(holder.icon);
+        Picasso.get().load(curr.getImage()).into(holder.icon);
         holder.textViewTicker.setText(curr.getTicker());
         holder.textViewPrice.setText("$" + String.valueOf(curr.getPrice()));
         holder.textViewChange.setText(String.valueOf(curr.getChange24h()) + "%");

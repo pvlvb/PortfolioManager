@@ -1,15 +1,10 @@
 package com.example.portfoliomanager.MainFragmentRepository;
 
-import android.app.Application;
-import android.os.AsyncTask;
-
 import androidx.lifecycle.LiveData;
 
-import com.example.portfoliomanager.LocalDataSource.Coin;
-import com.example.portfoliomanager.LocalDataSource.CoinDAO;
-import com.example.portfoliomanager.LocalDataSource.CoinDB;
-import com.example.portfoliomanager.LocalDataSource.LocalDataSource;
-import com.example.portfoliomanager.MainFragmentNetwork.RemoteDataSource;
+import com.example.portfoliomanager.MainFragmentLocal.Coin;
+import com.example.portfoliomanager.MainFragmentLocal.LocalDataSource;
+import com.example.portfoliomanager.MainFragmentRemote.RemoteDataSource;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,6 +23,7 @@ public class Repository {
     }
 
     public LiveData<List<Coin>> refreshData(){
+
         executorService.execute(new Runnable() {
             @Override
             public void run() {

@@ -15,10 +15,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.portfoliomanager.LocalDataSource.Coin;
+import com.example.portfoliomanager.MainFragmentLocal.Coin;
 
 import java.util.List;
-import java.util.Objects;
 
 public class MainFragment extends Fragment {
     private MainFragmentViewModel mainFragmentViewModel = null;
@@ -47,6 +46,13 @@ public class MainFragment extends Fragment {
                 adapter.setCoins(coins);
             }
         });
+
+
+        //TODO change title (Name price..) to a normal one
+        //TODO understand how to download images and how to add uris in database
+        //TODO learn about dagger and about its usability in this app
+        //TODO TOP Loser/Gainers or TOP 100 by mc or user sort
+        //TODO Return market cap (converted to billions) to recycler view top 5 mc
         return view;
     }
 }

@@ -5,10 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
 
-import com.example.portfoliomanager.LocalDataSource.Coin;
+import com.example.portfoliomanager.MainFragmentLocal.Coin;
 import com.example.portfoliomanager.MainFragmentRepository.Repository;
 
 import java.util.List;
