@@ -1,4 +1,4 @@
-package com.example.portfoliomanager;
+package com.example.portfoliomanager.MainFragmentAdapters;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.portfoliomanager.MainFragmentLocal.Coin;
+import com.example.portfoliomanager.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,12 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
         holder.textViewTicker.setText(curr.getTicker());
         holder.textViewPrice.setText("$" + String.valueOf(curr.getPrice()));
         holder.textViewChange.setText(String.valueOf(curr.getChange24h()) + "%");
+        double marketcap = curr.getMarket_cap();
+        DecimalFormat df = new DecimalFormat("#.##");
+        marketcap /= 10E8;
+        marketcap = Double.parseDouble(df.format(marketcap));
+        String mc = String.valueOf(marketcap) + "B";
+        holder.textViewMC.setText("$" + mc);
         if(curr.getChange24h()>=0){
             holder.textViewChange.setTextColor(Color.parseColor("#85c98c"));
         }
@@ -56,17 +64,15 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
         private ImageView icon;
         private TextView textViewTicker;
         private TextView textViewPrice;
-        private TextView textViewVolume;
+        private TextView textViewMC;
         private TextView textViewChange;
-
-
         public CoinHolder(@NonNull View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.img);
             textViewTicker = itemView.findViewById(R.id.ticker);
             textViewPrice = itemView.findViewById(R.id.price);
             textViewChange = itemView.findViewById(R.id.change);
-
+            textViewMC = itemView.findViewById(R.id.market_cap);
         }
     }
 }

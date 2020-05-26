@@ -11,6 +11,9 @@ public class Datum {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("symbol")
+    @Expose
+    private String symbol;
     @SerializedName("slug")
     @Expose
     private String slug;
@@ -38,6 +41,12 @@ public class Datum {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSymbol(){ return symbol;}
+
+    public void setSymbol(String symbol){
+        this.symbol = symbol;
     }
 
     public String getSlug() {

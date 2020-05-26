@@ -1,49 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swiperefresh"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent">
 
-    <TextView
-        android:id="@+id/main_fragment_top5_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_fragment_top5crypto"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_fragment_top5_title"
-        android:text="Name"
-        android:layout_alignParentLeft="true" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/top5_recyclerview"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="234dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="36dp"
-        tools:listitem="@layout/mainfragment_coin_item_top5_mc" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="-28dp"
+        <TextView
+            android:id="@+id/main_fragment_top5_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_fragment_top5crypto"
+            style="@style/TextAppearance.AppCompat"
+            android:textSize="19sp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/main_fragment_top5_title"
+            android:background="@color/colorAccent" />
+        <TextView
+            android:id="@+id/top5mc_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_fragment_top5_title"
+            android:text="@string/top5mc_nametxt"
+            android:paddingStart="55dp"
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_fragment_top5_title"
+            android:layout_centerHorizontal="true"
+            android:text="@string/top5mc_mctxt" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_fragment_top5_title"
+            android:layout_alignParentEnd="true"
+            android:text="@string/top5mc_price_change"
+            android:paddingRight="5dp"/>
+        <View
+            android:id="@+id/horizontal_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/top5mc_name"
+            android:background="@color/colorAccent" />
 
-        tools:listitem="@layout/mainfragment_coin_item_top5_gainers" />
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        tools:listitem="@layout/mainfragment_coin_item_top5_gainers" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/top5_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/horizontal_divider"
+            tools:listitem="@layout/mainfragment_coin_item_top5_mc" />
+
+        <TextView
+            android:id="@+id/gainers_title"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top5_recyclerview"
+            android:gravity="center_horizontal"
+            android:textSize="17sp"
+            style="@style/TextAppearance.AppCompat"
+            android:text="Gainers" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/top5_recyclerview"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/losers_title"
+            android:layout_width="206dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top5_recyclerview"
+            android:layout_alignParentEnd="true"
+            style="@style/TextAppearance.AppCompat"
+            android:textSize="17sp"
+            android:gravity="center_horizontal"
+            android:text="Losers" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/gainers_recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gainers_title"
+            tools:listitem="@layout/mainfragment_coin_item_top5_gainers" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/losers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/losers_title"
+            tools:listitem="@layout/mainfragment_coin_item_top5_gainers" />
 
 
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

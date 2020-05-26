@@ -14,45 +14,108 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.portfoliomanager.MainFragmentAdapters.Top5CoinAdapter;
+import com.example.portfoliomanager.MainFragmentAdapters.Top5GainersAdapter;
 import com.example.portfoliomanager.MainFragmentLocal.Coin;
 
 import java.util.List;
 
 public class MainFragment extends Fragment {
     private MainFragmentViewModel mainFragmentViewModel = null;
-    private LiveData<List<Coin>> liveData;
+    private LiveData<List<Coin>> topMC;
+    private LiveData<List<Coin>> topGainers;
+    private LiveData<List<Coin>> topLosers;
+    private SwipeRefreshLayout swipeRefreshLayout;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.main_fragment, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.top5_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        final Top5CoinAdapter adapter = new Top5CoinAdapter();
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(itemDecor);
 
-        mainFragmentViewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
-        // TODO Fix problems with ViewModelProvider
-        //mainFragmentViewModel = new ViewModelProvider(this, (((PortfolioApp) Objects.requireNonNull(getActivity()).getApplication()).getViewModelFactory())).get(MainFragmentViewModel.class);
+        //swipe refresh
+        swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
 
-        liveData = mainFragmentViewModel.getData();
-        liveData.observe(getViewLifecycleOwner(), new Observer<List<Coin>>() {
+
+
+        //recyclers
+        RecyclerView topMCRecyclerView = view.findViewById(R.id.top5_recyclerview);
+        RecyclerView topGainersRecyclerView = view.findViewById(R.id.gainers_recyclerview);
+        RecyclerView topLosersRecyclerView = view.findViewById(R.id.losers);
+
+        topMCRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()){
             @Override
-            public void onChanged(List<Coin> coins) {
-                //TODO Cout
-                adapter.setCoins(coins);
+            public boolean canScrollVertically(){
+                return false;
+            }
+        });
+        topGainersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()){
+            @Override
+            public boolean canScrollVertically(){
+                return false;
+            }
+        });
+        topLosersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()){
+            @Override
+            public boolean canScrollVertically(){
+                return false;
             }
         });
 
+        final Top5CoinAdapter top5CoinAdapter = new Top5CoinAdapter();
+        final Top5GainersAdapter top5GainersAdapter = new Top5GainersAdapter();
+        final Top5GainersAdapter top5LosersAdapter = new Top5GainersAdapter();
 
-        //TODO change title (Name price..) to a normal one
-        //TODO understand how to download images and how to add uris in database
+        topMCRecyclerView.setAdapter(top5CoinAdapter);
+        topGainersRecyclerView.setAdapter(top5GainersAdapter);
+        topLosersRecyclerView.setAdapter(top5LosersAdapter);
+
+        topMCRecyclerView.setHasFixedSize(true);
+        DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        topMCRecyclerView.addItemDecoration(itemDecor);
+        topGainersRecyclerView.addItemDecoration(itemDecor);
+        topLosersRecyclerView.addItemDecoration(itemDecor);
+        //recyclers end
+
+        mainFragmentViewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
+
+        topMC = mainFragmentViewModel.getTOPMC();
+        topMC.observe(getViewLifecycleOwner(), new Observer<List<Coin>>() {
+            @Override
+            public void onChanged(List<Coin> coinList) {
+                //TODO Cout
+                top5CoinAdapter.setCoins(coinList);
+            }
+        });
+
+        topGainers = mainFragmentViewModel.getGainers();
+        topGainers.observe(getViewLifecycleOwner(), new Observer<List<Coin>>() {
+            @Override
+            public void onChanged(List<Coin> coinList) {
+                //TODO Cout
+                top5GainersAdapter.setCoins(coinList);
+            }
+        });
+
+        topLosers = mainFragmentViewModel.getLosers();
+        topLosers.observe(getViewLifecycleOwner(), new Observer<List<Coin>>() {
+            @Override
+            public void onChanged(List<Coin> coinList) {
+                top5LosersAdapter.setCoins(coinList);
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                topMC = mainFragmentViewModel.getTOPMC();
+                topGainers = mainFragmentViewModel.getGainers();
+                topLosers = mainFragmentViewModel.getLosers();
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         //TODO learn about dagger and about its usability in this app
-        //TODO TOP Loser/Gainers or TOP 100 by mc or user sort
-        //TODO Return market cap (converted to billions) to recycler view top 5 mc
         return view;
     }
 }

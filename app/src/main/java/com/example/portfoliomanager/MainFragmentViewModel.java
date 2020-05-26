@@ -21,7 +21,13 @@ public class MainFragmentViewModel extends AndroidViewModel {
         repository = PortfolioApp.getInstance().getRepository();
     }
 
-    public LiveData<List<Coin>> getData(){
-        return repository.refreshData();
+    public LiveData<List<Coin>> getTOPMC(){
+        return repository.refreshTOPMC();
+    }
+    public LiveData<List<Coin>> getGainers(){
+        return repository.refreshTOPGainers();
+    }
+    public LiveData<List<Coin>> getLosers(){
+        return repository.refreshTOPLosers();
     }
 }

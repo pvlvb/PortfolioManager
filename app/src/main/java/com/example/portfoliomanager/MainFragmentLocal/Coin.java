@@ -12,20 +12,20 @@ public class Coin {
 
     private String ticker;
 
-    private double price;
+    private double market_cap;
 
+    private double price;
 
     private double change24h;
 
-    public Coin(int id, String image, String ticker, double price, double change24h) {
+    public Coin(int id, String image, String ticker, double market_cap, double price, double change24h) {
         this.id = id;
         this.image = image;
         this.ticker = ticker;
+        this.market_cap = market_cap;
         this.price = price;
         this.change24h = change24h;
     }
-
-
 
     public int getId() {
         return id;
@@ -38,6 +38,8 @@ public class Coin {
     public String getTicker() {
         return ticker;
     }
+
+    public double getMarket_cap(){ return market_cap; }
 
     public double getPrice() {
         return price;

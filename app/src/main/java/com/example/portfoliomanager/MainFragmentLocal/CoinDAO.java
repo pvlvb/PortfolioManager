@@ -25,8 +25,14 @@ public interface CoinDAO  {
     @Delete
     void deleteCoin(Coin coin);
 
-    @Query("SELECT * FROM coin_table ORDER BY id ASC")
-    LiveData<List<Coin>> getAllCoins();
+    @Query("SELECT * FROM coin_table ORDER BY market_cap DESC limit :num")
+    LiveData<List<Coin>> getAllCoins(int num);
+
+    @Query("SELECT * from coin_table Order by change24h DESC limit :num")
+    LiveData<List<Coin>> getGainers(int num);
+
+    @Query("SELECT * FROM coin_table ORDER BY change24h ASC limit :num")
+    LiveData<List<Coin>> getLosers(int num);
 
     @Query("DELETE FROM coin_table")
     void deleteAll();

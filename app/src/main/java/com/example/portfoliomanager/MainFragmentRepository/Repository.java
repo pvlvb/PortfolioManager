@@ -22,18 +22,43 @@ public class Repository {
         this.remoteDataSource = remoteDataSource;
     }
 
-    public LiveData<List<Coin>> refreshData(){
-
+    public LiveData<List<Coin>> refreshTOPMC(){
         executorService.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    localDataSource.putData(remoteDataSource.updateData());
+                    localDataSource.putData(remoteDataSource.updateTOPMC(), true);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
         return localDataSource.getData();
+    }
+    public LiveData<List<Coin>> refreshTOPGainers(){
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    localDataSource.putData(remoteDataSource.updateTOPGainers(), false);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return localDataSource.getGainers();
+    }
+    public LiveData<List<Coin>> refreshTOPLosers(){
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    localDataSource.putData(remoteDataSource.updateTOPLosers(),false);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return localDataSource.getLosers();
     }
 }

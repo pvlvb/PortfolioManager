@@ -22,7 +22,7 @@ public class USD {
     private Double percentChange7d;
     @SerializedName("market_cap")
     @Expose
-    private String marketCap;
+    private Double marketCap;
     @SerializedName("last_updated")
     @Expose
     private String lastUpdated;
@@ -67,11 +67,11 @@ public class USD {
         this.percentChange7d = percentChange7d;
     }
 
-    public String getMarketCap() {
+    public Double getMarketCap() {
         return marketCap;
     }
 
-    public void setMarketCap(String marketCap) {
+    public void setMarketCap(Double marketCap) {
         this.marketCap = marketCap;
     }
 

@@ -15,38 +15,44 @@ public class LocalDataSource {
     private CoinDB db = PortfolioApp.getInstance().getCoinDB();
     private CoinDAO coinDAO = db.coinDao();
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    public static final int num = 5;
 
-    public LiveData<List<Coin>> getData(){ return coinDAO.getAllCoins();}
+    public LiveData<List<Coin>> getData(){ return coinDAO.getAllCoins(num);}
+    public LiveData<List<Coin>> getGainers() {
+        return  coinDAO.getGainers(num);
+    }
+    public LiveData<List<Coin>> getLosers(){ return coinDAO.getLosers(num); }
 
     //TODO put data methods
-    public void putData(Result resp) {
+    public void putData(Result resp,boolean clearData) {
         if (resp != null) {
-            coinDAO.deleteAll();
+            if(clearData) coinDAO.deleteAll();
             List<Datum> datumList = resp.getData();
-            Integer id = 0; // adding custom id, because CMC have their own ids
             for (Datum t : datumList) {
 
+                //data processing
                 double price = t.getQuote().getUSD().getPrice();
                 double percentchange = t.getQuote().getUSD().getPercentChange24h();
+                DecimalFormat df = new DecimalFormat("#.##");
                 if (price >= 1.0) {
-                    DecimalFormat df = new DecimalFormat("#.##");
+                    df = new DecimalFormat("#.##");
                     price = Double.parseDouble(df.format(price));
                 } else {
-                    DecimalFormat df = new DecimalFormat("#.###");
+                    df = new DecimalFormat("#.###");
                     price = Double.parseDouble(df.format(price));
                 }
-                DecimalFormat df = new DecimalFormat("#.##");
+                df = new DecimalFormat("#.##");
                 percentchange = Double.parseDouble(df.format(percentchange));
 
-
-                coinDAO.insertCoin(new Coin(id, "https://s2.coinmarketcap.com/static/img/coins/64x64/"+ t.getId() +".png", t.getName(), price, percentchange));
-                id++;
+                coinDAO.insertCoin(new Coin(t.getId(), "https://s2.coinmarketcap.com/static/img/coins/64x64/"+ t.getId() +".png", t.getSymbol().toUpperCase(), (t.getQuote().getUSD().getMarketCap()!=null)?t.getQuote().getUSD().getMarketCap():0, price, percentchange));
             }
         }
         else{
             //TODO add notification on data unsuccessful loading
         }
     }
+
+
 }
 
 
