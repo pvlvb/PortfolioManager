@@ -7,4 +7,5 @@
     <string name="top5mc_nametxt">Name</string>
     <string name="top5mc_mctxt">Market Cap</string>
     <string name="top5mc_price_change">Price / Change</string>
+    <string name="news">News</string>
 </resources>

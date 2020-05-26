@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.portfoliomanager.MainFragmentLocal.Coin;
+import com.example.portfoliomanager.Model.LocalDataSource.Coin;
 import com.example.portfoliomanager.R;
 import com.squareup.picasso.Picasso;
 

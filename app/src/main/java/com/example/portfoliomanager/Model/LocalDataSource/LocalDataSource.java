@@ -1,9 +1,11 @@
-package com.example.portfoliomanager.MainFragmentLocal;
+package com.example.portfoliomanager.Model.LocalDataSource;
+
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.portfoliomanager.MainFragmentRemote.CMC_TopMarketCap_Converter.Datum;
-import com.example.portfoliomanager.MainFragmentRemote.CMC_TopMarketCap_Converter.Result;
+import com.example.portfoliomanager.Model.RemoteDataSource.CMC_TopMarketCap_Converter.Datum;
+import com.example.portfoliomanager.Model.RemoteDataSource.CMC_TopMarketCap_Converter.Result;
 import com.example.portfoliomanager.PortfolioApp;
 
 import java.text.DecimalFormat;
@@ -15,7 +17,7 @@ public class LocalDataSource {
     private CoinDB db = PortfolioApp.getInstance().getCoinDB();
     private CoinDAO coinDAO = db.coinDao();
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
-    public static final int num = 5;
+    private static final int num = 5;
 
     public LiveData<List<Coin>> getData(){ return coinDAO.getAllCoins(num);}
     public LiveData<List<Coin>> getGainers() {
@@ -23,13 +25,10 @@ public class LocalDataSource {
     }
     public LiveData<List<Coin>> getLosers(){ return coinDAO.getLosers(num); }
 
-    //TODO put data methods
-    public void putData(Result resp,boolean clearData) {
-        if (resp != null) {
-            if(clearData) coinDAO.deleteAll();
+    public void putData(Result resp,int startId) {
             List<Datum> datumList = resp.getData();
+            int tmp = startId;
             for (Datum t : datumList) {
-
                 //data processing
                 double price = t.getQuote().getUSD().getPrice();
                 double percentchange = t.getQuote().getUSD().getPercentChange24h();
@@ -43,13 +42,11 @@ public class LocalDataSource {
                 }
                 df = new DecimalFormat("#.##");
                 percentchange = Double.parseDouble(df.format(percentchange));
+                Log.e("HUI", "putData:" + tmp + "   " + t.getSymbol().toUpperCase());
+                coinDAO.insertCoin(new Coin(tmp, "https://s2.coinmarketcap.com/static/img/coins/64x64/"+ t.getId() +".png", t.getSymbol().toUpperCase(), (t.getQuote().getUSD().getMarketCap()!=null)?t.getQuote().getUSD().getMarketCap():0, price, percentchange));
+                tmp++;
 
-                coinDAO.insertCoin(new Coin(t.getId(), "https://s2.coinmarketcap.com/static/img/coins/64x64/"+ t.getId() +".png", t.getSymbol().toUpperCase(), (t.getQuote().getUSD().getMarketCap()!=null)?t.getQuote().getUSD().getMarketCap():0, price, percentchange));
             }
-        }
-        else{
-            //TODO add notification on data unsuccessful loading
-        }
     }
 
 

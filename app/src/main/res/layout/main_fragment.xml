@@ -24,7 +24,7 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/main_fragment_top5_title"
-            android:background="@color/colorAccent" />
+            android:background="@color/colorDivider" />
         <TextView
             android:id="@+id/top5mc_name"
             android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/top5mc_name"
-            android:background="@color/colorAccent" />
+            android:background="@color/colorDivider" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/top5_recyclerview"
@@ -75,7 +75,7 @@
             android:layout_height="fill_parent"
             android:layout_below="@+id/top5_recyclerview"
             android:layout_centerHorizontal="true"
-            android:background="@color/colorAccent" />
+            android:background="@color/colorDivider" />
 
         <TextView
             android:id="@+id/losers_title"
@@ -89,19 +89,24 @@
             android:gravity="center_horizontal"
             android:text="Losers" />
 
-
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/losers_title"
+            android:id="@+id/horizontal_divider_lg"
+            android:background="@color/colorDivider" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/gainers_recyclerview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/gainers_title"
+            android:layout_below="@+id/horizontal_divider_lg"
             tools:listitem="@layout/mainfragment_coin_item_top5_gainers" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/losers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/losers_title"
+            android:layout_below="@+id/horizontal_divider_lg"
             tools:listitem="@layout/mainfragment_coin_item_top5_gainers" />
 
 

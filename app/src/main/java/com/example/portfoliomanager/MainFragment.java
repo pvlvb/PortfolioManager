@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -18,7 +20,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.portfoliomanager.MainFragmentAdapters.Top5CoinAdapter;
 import com.example.portfoliomanager.MainFragmentAdapters.Top5GainersAdapter;
-import com.example.portfoliomanager.MainFragmentLocal.Coin;
+import com.example.portfoliomanager.Model.LocalDataSource.Coin;
+import com.example.portfoliomanager.Model.Repository.LoadingStatus;
 
 import java.util.List;
 
@@ -27,6 +30,7 @@ public class MainFragment extends Fragment {
     private LiveData<List<Coin>> topMC;
     private LiveData<List<Coin>> topGainers;
     private LiveData<List<Coin>> topLosers;
+    private MutableLiveData<LoadingStatus> loadingStatus;
     private SwipeRefreshLayout swipeRefreshLayout;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -80,40 +84,27 @@ public class MainFragment extends Fragment {
         mainFragmentViewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
 
         topMC = mainFragmentViewModel.getTOPMC();
-        topMC.observe(getViewLifecycleOwner(), new Observer<List<Coin>>() {
-            @Override
-            public void onChanged(List<Coin> coinList) {
-                //TODO Cout
-                top5CoinAdapter.setCoins(coinList);
-            }
-        });
-
         topGainers = mainFragmentViewModel.getGainers();
-        topGainers.observe(getViewLifecycleOwner(), new Observer<List<Coin>>() {
-            @Override
-            public void onChanged(List<Coin> coinList) {
-                //TODO Cout
-                top5GainersAdapter.setCoins(coinList);
-            }
-        });
-
         topLosers = mainFragmentViewModel.getLosers();
-        topLosers.observe(getViewLifecycleOwner(), new Observer<List<Coin>>() {
+        loadingStatus = mainFragmentViewModel.getStatus();
+
+        topMC.observe(getViewLifecycleOwner(), top5CoinAdapter::setCoins);
+        topGainers.observe(getViewLifecycleOwner(), top5GainersAdapter::setCoins);
+        topLosers.observe(getViewLifecycleOwner(), top5LosersAdapter::setCoins);
+        loadingStatus.observe(getViewLifecycleOwner(), new Observer<LoadingStatus>() {
             @Override
-            public void onChanged(List<Coin> coinList) {
-                top5LosersAdapter.setCoins(coinList);
+            public void onChanged(LoadingStatus loadingStatus) {
+                if(loadingStatus == LoadingStatus.FAILED){
+                    Toast.makeText( getContext() , "Loading failed", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                topMC = mainFragmentViewModel.getTOPMC();
-                topGainers = mainFragmentViewModel.getGainers();
-                topLosers = mainFragmentViewModel.getLosers();
-
-                swipeRefreshLayout.setRefreshing(false);
-            }
+        swipeRefreshLayout.setOnRefreshListener (() -> {
+            topMC = mainFragmentViewModel.getTOPMC();
+            topGainers = mainFragmentViewModel.getGainers();
+            topLosers = mainFragmentViewModel.getLosers();
+            swipeRefreshLayout.setRefreshing(false);
         });
         //TODO learn about dagger and about its usability in this app
         return view;

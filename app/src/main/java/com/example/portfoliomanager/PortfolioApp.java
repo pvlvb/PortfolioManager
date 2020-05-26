@@ -4,11 +4,11 @@ import android.app.Application;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.portfoliomanager.MainFragmentLocal.CoinDB;
-import com.example.portfoliomanager.MainFragmentLocal.LocalDataSource;
-import com.example.portfoliomanager.MainFragmentRemote.CoinMarketCapAPI;
-import com.example.portfoliomanager.MainFragmentRemote.RemoteDataSource;
-import com.example.portfoliomanager.MainFragmentRepository.Repository;
+import com.example.portfoliomanager.Model.LocalDataSource.CoinDB;
+import com.example.portfoliomanager.Model.LocalDataSource.LocalDataSource;
+import com.example.portfoliomanager.Model.RemoteDataSource.CoinMarketCapAPI;
+import com.example.portfoliomanager.Model.RemoteDataSource.RemoteDataSource;
+import com.example.portfoliomanager.Model.Repository.Repository;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

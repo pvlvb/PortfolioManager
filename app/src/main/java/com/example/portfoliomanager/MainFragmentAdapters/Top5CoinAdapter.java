@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.portfoliomanager.MainFragmentLocal.Coin;
+import com.example.portfoliomanager.Model.LocalDataSource.Coin;
 import com.example.portfoliomanager.R;
 import com.squareup.picasso.Picasso;
 
@@ -39,8 +39,8 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
         DecimalFormat df = new DecimalFormat("#.##");
         marketcap /= 10E8;
         marketcap = Double.parseDouble(df.format(marketcap));
-        String mc = String.valueOf(marketcap) + "B";
-        holder.textViewMC.setText("$" + mc);
+        String mc = "$" + String.valueOf(marketcap) + "B";
+        holder.textViewMC.setText(mc);
         if(curr.getChange24h()>=0){
             holder.textViewChange.setTextColor(Color.parseColor("#85c98c"));
         }

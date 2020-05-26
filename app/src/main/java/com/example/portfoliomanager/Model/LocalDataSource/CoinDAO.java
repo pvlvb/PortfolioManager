@@ -1,4 +1,4 @@
-package com.example.portfoliomanager.MainFragmentLocal;
+package com.example.portfoliomanager.Model.LocalDataSource;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

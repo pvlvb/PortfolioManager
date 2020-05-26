@@ -15,9 +15,9 @@
         />
     <item
         android:id="@+id/settings"
-        android:title="@string/settings"
+        android:title="@string/news"
         android:enabled="true"
-        android:icon="@drawable/ic_settings_white_24dp"
+        android:icon="@drawable/ic_dynamic_feed_white_24dp"
         
          />
 </menu>

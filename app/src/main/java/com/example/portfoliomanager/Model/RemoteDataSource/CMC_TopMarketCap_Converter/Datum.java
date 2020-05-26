@@ -1,4 +1,4 @@
-package com.example.portfoliomanager.MainFragmentRemote.CMC_TopMarketCap_Converter;
+package com.example.portfoliomanager.Model.RemoteDataSource.CMC_TopMarketCap_Converter;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

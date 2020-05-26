@@ -1,6 +1,6 @@
-package com.example.portfoliomanager.MainFragmentRemote;
+package com.example.portfoliomanager.Model.RemoteDataSource;
 
-import com.example.portfoliomanager.MainFragmentRemote.CMC_TopMarketCap_Converter.Result;
+import com.example.portfoliomanager.Model.RemoteDataSource.CMC_TopMarketCap_Converter.Result;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
