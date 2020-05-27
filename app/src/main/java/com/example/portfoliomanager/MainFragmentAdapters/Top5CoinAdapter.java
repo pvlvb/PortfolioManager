@@ -56,7 +56,6 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
 
     public void setCoins(List<Coin> coins){
         this.coins = coins;
-        //TODO change this method
         notifyDataSetChanged();
     }
 

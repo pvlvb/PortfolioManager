@@ -6,10 +6,12 @@ import com.example.portfoliomanager.PortfolioApp;
 import java.io.IOException;
 
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 
 public class RemoteDataSource {
-    public static final String API_KEY = "41b30e2b-8e42-4ca3-a21d-abaacd519c19";
+    private static final String API_KEY = "41b30e2b-8e42-4ca3-a21d-abaacd519c19";
+    private CoinMarketCapAPI retrofit = PortfolioApp.getInstance().getApi();
     public Result updateTOPMC() throws IOException {
         Response<Result> resp = PortfolioApp.getInstance().getApi().getData(1,5,"USD", 0,"market_cap", "desc", API_KEY).execute();
         //Log.d("", "updateData: " + resp.body());

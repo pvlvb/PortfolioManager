@@ -41,7 +41,7 @@ public class Repository {
                     }
                     else{
                         status.postValue(LoadingStatus.FAILED);
-                        //TODO notification
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

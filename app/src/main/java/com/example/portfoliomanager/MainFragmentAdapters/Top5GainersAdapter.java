@@ -48,7 +48,7 @@ public class Top5GainersAdapter extends RecyclerView.Adapter<Top5GainersAdapter.
 
     public void setCoins(List<Coin> coins){
         this.coins = coins;
-        //TODO change this method
+
         notifyDataSetChanged();
     }
 
