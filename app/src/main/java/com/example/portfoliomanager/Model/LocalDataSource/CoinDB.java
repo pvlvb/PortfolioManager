@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = Coin.class, version = 1)
+@Database(entities = {Coin.class, News.class}, version = 1)
 public abstract class CoinDB extends RoomDatabase {
     private static CoinDB instance;
     public abstract CoinDAO coinDao();

@@ -24,8 +24,11 @@ public class LocalDataSource {
         return  coinDAO.getGainers(num);
     }
     public LiveData<List<Coin>> getLosers(){ return coinDAO.getLosers(num); }
+    public LiveData<List<News>> getNews(int limit, int offset) {
+        return coinDAO.getBlockOfNews(limit,offset);
+    }
 
-    public void putData(Result resp,int startId) {
+    public void putCoins(Result resp, int startId) {
             List<Datum> datumList = resp.getData();
             int tmp = startId;
             for (Datum t : datumList) {
@@ -48,6 +51,16 @@ public class LocalDataSource {
 
             }
     }
+
+    public void putNews(com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.News response){
+        List<com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.Result> results = response.getResults();
+        for(com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.Result t: results){
+
+            coinDAO.insertNews(new News(t.getId(),t.getPublishedAt(),t.getTitle(),(t.getCurrencies()!=null)?t.getCurrencies().get(0).getCode():"",t.getUrl(), t.getVotes().getPositive(),t.getVotes().getDisliked()));
+        }
+
+    }
+
 
 
 }

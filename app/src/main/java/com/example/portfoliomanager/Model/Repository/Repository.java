@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.portfoliomanager.Model.LocalDataSource.Coin;
 import com.example.portfoliomanager.Model.LocalDataSource.LocalDataSource;
+import com.example.portfoliomanager.Model.LocalDataSource.News;
 import com.example.portfoliomanager.Model.RemoteDataSource.CMC_TopMarketCap_Converter.Result;
 import com.example.portfoliomanager.Model.RemoteDataSource.RemoteDataSource;
 
@@ -36,7 +37,7 @@ public class Repository {
                 try {
                     Result tmp = remoteDataSource.updateTOPMC();
                     if(tmp != null){
-                        localDataSource.putData(tmp, 0);
+                        localDataSource.putCoins(tmp, 0);
                         status.postValue(LoadingStatus.SUCCESSFUL);
                     }
                     else{
@@ -57,7 +58,7 @@ public class Repository {
                 try {
                     Result tmp = remoteDataSource.updateTOPGainers();
                     if(tmp != null){
-                        localDataSource.putData(tmp, 5);
+                        localDataSource.putCoins(tmp, 5);
                         status.postValue(LoadingStatus.SUCCESSFUL);
                     }
                     else{
@@ -78,7 +79,7 @@ public class Repository {
                 try {
                     Result tmp = remoteDataSource.updateTOPLosers();
                     if(tmp != null){
-                        localDataSource.putData(tmp,10);
+                        localDataSource.putCoins(tmp,10);
                         status.postValue(LoadingStatus.SUCCESSFUL);
                     }
                     else{
@@ -92,4 +93,31 @@ public class Repository {
         });
         return localDataSource.getLosers();
     }
+
+
+    public LiveData<List<News>> refreshNews(){
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.News tmp = remoteDataSource.updateNews(1);
+                    if(tmp!=null){
+                        localDataSource.putNews(tmp);
+                        //TODO loading successful
+                    }
+                    else{
+                        //// TODO: 27.05.2020 loading unsuccessful
+                    }
+                } catch (IOException e){
+                    e.printStackTrace();;
+                }
+            }
+        });
+        return localDataSource.getNews(20,0);
+    }
+
+
+
+
+    //// TODO: 27.05.2020 check internet connection before loading
 }

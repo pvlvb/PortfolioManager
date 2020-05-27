@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.portfoliomanager.Model.LocalDataSource.CoinDB;
 import com.example.portfoliomanager.Model.LocalDataSource.LocalDataSource;
 import com.example.portfoliomanager.Model.RemoteDataSource.CoinMarketCapAPI;
+import com.example.portfoliomanager.Model.RemoteDataSource.CryptoPanicAPI;
 import com.example.portfoliomanager.Model.RemoteDataSource.RemoteDataSource;
 import com.example.portfoliomanager.Model.Repository.Repository;
 
@@ -18,16 +19,20 @@ public class PortfolioApp extends Application {
     private Repository repository;
     private static PortfolioApp instance;
     private CoinDB coinDB;
-    Retrofit retrofit;
+    Retrofit CMCretrofit;
+    Retrofit CPretrofit;
     private static CoinMarketCapAPI coinMarketCapAPI;
+    private static CryptoPanicAPI cryptoPanicAPI;
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
         factory = new MainFragmentViewModelProvider();
         coinDB = CoinDB.getInstance(instance);
-        retrofit = new Retrofit.Builder().baseUrl("https://pro-api.coinmarketcap.com/").addConverterFactory(GsonConverterFactory.create()).build();
-        coinMarketCapAPI = retrofit.create(CoinMarketCapAPI.class);
+        CMCretrofit = new Retrofit.Builder().baseUrl("https://pro-api.coinmarketcap.com/").addConverterFactory(GsonConverterFactory.create()).build();
+        coinMarketCapAPI = CMCretrofit.create(CoinMarketCapAPI.class);
+        CPretrofit = new Retrofit.Builder().baseUrl("https://cryptopanic.com/").addConverterFactory(GsonConverterFactory.create()).build();
+        cryptoPanicAPI = CPretrofit.create(CryptoPanicAPI.class);
         repository = new Repository(new LocalDataSource(), new RemoteDataSource());
 
     }
@@ -43,6 +48,7 @@ public class PortfolioApp extends Application {
     public ViewModelProvider.Factory getViewModelFactory(){
         return factory;
     }
-    public CoinMarketCapAPI getApi(){return coinMarketCapAPI;}
+    public CoinMarketCapAPI getCMCApi(){return coinMarketCapAPI;}
+    public CryptoPanicAPI getCPApi(){return cryptoPanicAPI;}
 
 }

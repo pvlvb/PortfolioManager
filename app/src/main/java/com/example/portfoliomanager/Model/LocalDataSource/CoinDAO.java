@@ -12,7 +12,7 @@ import java.util.List;
 
 @Dao
 public interface CoinDAO  {
-
+    //coin_table
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCoin(Coin coin);
 
@@ -36,4 +36,16 @@ public interface CoinDAO  {
 
     @Query("DELETE FROM coin_table")
     void deleteAll();
+
+    //news_table
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertNews(News news);
+
+    @Delete
+    void deleteNews(News news);
+
+    //TODO check if we can sort by time
+    @Query("Select * from news_table ORDER BY id DESC limit :num offset :offset")
+    LiveData<List<News>> getBlockOfNews(int num, int offset);
+
 }

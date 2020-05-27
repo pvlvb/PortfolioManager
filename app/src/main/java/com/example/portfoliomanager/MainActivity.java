@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.portfolio:
-                        if(bottomNavigationView.getSelectedItemId() != R.id.portfolio){
-                            bottomNavigationView.setSelectedItemId(R.id.portfolio);
-                        }
+//                        if(bottomNavigationView.getSelectedItemId() != R.id.portfolio){
+//                            bottomNavigationView.setSelectedItemId(R.id.portfolio);
+//                        }
                         break;
                 }
                 return false;

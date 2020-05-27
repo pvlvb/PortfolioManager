@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2D3132"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/time"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="8 min"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/time"
+            android:layout_marginEnd="30dp"
+            android:text="Google Signs On as Network Validator for Blockchain Video Network Theta" />
+
+        <TextView
+            android:id="@+id/news_ticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="BTC"
+            android:textSize="12sp"
+            android:paddingLeft="5dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorAccent"
+            />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
