@@ -1,5 +1,7 @@
 package com.example.portfoliomanager.Model.Repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -17,9 +19,10 @@ import java.util.concurrent.Executors;
 public class Repository {
     private LocalDataSource localDataSource;
     private RemoteDataSource remoteDataSource;
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private ExecutorService executorService = Executors.newFixedThreadPool(4);
     private LiveData<List<Coin>> coins;
     private MutableLiveData<LoadingStatus> status = new MutableLiveData<LoadingStatus>();
+    private MutableLiveData<LoadingStatus> newsStatus = new MutableLiveData<LoadingStatus>();
 
     public Repository(LocalDataSource localDataSource, RemoteDataSource remoteDataSource){
         this.localDataSource = localDataSource;
@@ -95,28 +98,33 @@ public class Repository {
     }
 
 
-    public LiveData<List<News>> refreshNews(){
+    public LiveData<List<News>> refreshNews(int page){
+        newsStatus.postValue(LoadingStatus.LOADING);
         executorService.execute(new Runnable() {
             @Override
             public void run() {
+                if(page == 1) localDataSource.clearNews();
                 try{
-                    com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.News tmp = remoteDataSource.updateNews(1);
+                    //Log.e("", "repository: " + page );
+                    com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.News tmp = remoteDataSource.updateNews(page);
                     if(tmp!=null){
+                        newsStatus.postValue(LoadingStatus.SUCCESSFUL);
                         localDataSource.putNews(tmp);
-                        //TODO loading successful
                     }
                     else{
-                        //// TODO: 27.05.2020 loading unsuccessful
+                        newsStatus.postValue(LoadingStatus.FAILED);
                     }
                 } catch (IOException e){
                     e.printStackTrace();;
                 }
             }
         });
-        return localDataSource.getNews(20,0);
+        return localDataSource.getNews();
     }
 
-
+    public MutableLiveData<LoadingStatus> getNewsStatus() {
+        return newsStatus;
+    }
 
 
     //// TODO: 27.05.2020 check internet connection before loading

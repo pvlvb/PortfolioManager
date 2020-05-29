@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "news_table")
 public class News {
 
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String time_posted;
+    private long time_posted;
 
     private String title;
 
@@ -20,7 +20,7 @@ public class News {
 
     private int negative;
 
-    public News(int id, String time_posted, String title, String ticker, String url, int positive, int negative) {
+    public News(int id, long time_posted, String title, String ticker, String url, int positive, int negative) {
         this.id = id;
         this.time_posted = time_posted;
         this.title = title;
@@ -34,7 +34,7 @@ public class News {
         return id;
     }
 
-    public String getTime_posted() {
+    public long getTime_posted() {
         return time_posted;
     }
 

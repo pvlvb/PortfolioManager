@@ -32,6 +32,9 @@ public class MainFragment extends Fragment {
     private LiveData<List<Coin>> topLosers;
     private MutableLiveData<LoadingStatus> loadingStatus;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -75,6 +78,10 @@ public class MainFragment extends Fragment {
         topLosersRecyclerView.setAdapter(top5LosersAdapter);
 
         topMCRecyclerView.setHasFixedSize(true);
+        topGainersRecyclerView.setHasFixedSize(true);
+        topLosersRecyclerView.setHasFixedSize(true);
+
+
         DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         topMCRecyclerView.addItemDecoration(itemDecor);
         topGainersRecyclerView.addItemDecoration(itemDecor);
@@ -96,6 +103,10 @@ public class MainFragment extends Fragment {
             public void onChanged(LoadingStatus loadingStatus) {
                 if(loadingStatus == LoadingStatus.FAILED){
                     Toast.makeText( getContext() , "Loading failed", Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                else if(loadingStatus == LoadingStatus.SUCCESSFUL){
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
@@ -104,7 +115,7 @@ public class MainFragment extends Fragment {
             topMC = mainFragmentViewModel.getTOPMC();
             topGainers = mainFragmentViewModel.getGainers();
             topLosers = mainFragmentViewModel.getLosers();
-            swipeRefreshLayout.setRefreshing(false);
+
         });
         //TODO learn about dagger and about its usability in this app
         return view;

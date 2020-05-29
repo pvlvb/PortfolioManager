@@ -15,7 +15,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PortfolioApp extends Application {
-    private ViewModelProvider.Factory factory;
     private Repository repository;
     private static PortfolioApp instance;
     private CoinDB coinDB;
@@ -27,7 +26,6 @@ public class PortfolioApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        factory = new MainFragmentViewModelProvider();
         coinDB = CoinDB.getInstance(instance);
         CMCretrofit = new Retrofit.Builder().baseUrl("https://pro-api.coinmarketcap.com/").addConverterFactory(GsonConverterFactory.create()).build();
         coinMarketCapAPI = CMCretrofit.create(CoinMarketCapAPI.class);
@@ -44,9 +42,6 @@ public class PortfolioApp extends Application {
     }
     public CoinDB getCoinDB(){
         return coinDB;
-    }
-    public ViewModelProvider.Factory getViewModelFactory(){
-        return factory;
     }
     public CoinMarketCapAPI getCMCApi(){return coinMarketCapAPI;}
     public CryptoPanicAPI getCPApi(){return cryptoPanicAPI;}

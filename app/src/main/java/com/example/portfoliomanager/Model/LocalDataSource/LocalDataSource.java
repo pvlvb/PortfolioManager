@@ -9,6 +9,8 @@ import com.example.portfoliomanager.Model.RemoteDataSource.CMC_TopMarketCap_Conv
 import com.example.portfoliomanager.PortfolioApp;
 
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,8 +26,11 @@ public class LocalDataSource {
         return  coinDAO.getGainers(num);
     }
     public LiveData<List<Coin>> getLosers(){ return coinDAO.getLosers(num); }
-    public LiveData<List<News>> getNews(int limit, int offset) {
-        return coinDAO.getBlockOfNews(limit,offset);
+    public LiveData<List<News>> getNews() {
+        return coinDAO.getBlockOfNews();
+    }
+    public void clearNews(){
+        coinDAO.deleteAllNews();
     }
 
     public void putCoins(Result resp, int startId) {
@@ -45,7 +50,6 @@ public class LocalDataSource {
                 }
                 df = new DecimalFormat("#.##");
                 percentchange = Double.parseDouble(df.format(percentchange));
-                Log.e("HUI", "putData:" + tmp + "   " + t.getSymbol().toUpperCase());
                 coinDAO.insertCoin(new Coin(tmp, "https://s2.coinmarketcap.com/static/img/coins/64x64/"+ t.getId() +".png", t.getSymbol().toUpperCase(), (t.getQuote().getUSD().getMarketCap()!=null)?t.getQuote().getUSD().getMarketCap():0, price, percentchange));
                 tmp++;
 
@@ -54,11 +58,16 @@ public class LocalDataSource {
 
     public void putNews(com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.News response){
         List<com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.Result> results = response.getResults();
+        LocalDateTime now = LocalDateTime.now();
         for(com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.Result t: results){
-
-            coinDAO.insertNews(new News(t.getId(),t.getPublishedAt(),t.getTitle(),(t.getCurrencies()!=null)?t.getCurrencies().get(0).getCode():"",t.getUrl(), t.getVotes().getPositive(),t.getVotes().getDisliked()));
+            String posted = t.getPublishedAt();
+            posted = posted.substring(0,posted.length()-1);
+            LocalDateTime dateTime = LocalDateTime.parse(posted);
+            long minutes = Math.abs(ChronoUnit.MINUTES.between(dateTime,now));
+            coinDAO.insertNews(new News(t.getId(),minutes,t.getTitle(),(t.getCurrencies()!=null)?t.getCurrencies().get(0).getCode():"", t.getUrl(),
+                    t.getVotes().getPositive()+t.getVotes().getLiked() + t.getVotes().getImportant(),
+                    t.getVotes().getDisliked()+t.getVotes().getToxic()+t.getVotes().getNegative()));
         }
-
     }
 
 

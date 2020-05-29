@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#2D3132"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -17,6 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
+            android:paddingLeft="5dp"
             android:text="8 min"
             android:textSize="10sp" />
 
@@ -26,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_toEndOf="@+id/time"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="50dp"
+            android:textSize="20sp"
             android:text="Google Signs On as Network Validator for Blockchain Video Network Theta" />
 
         <TextView
@@ -36,10 +40,40 @@
             android:layout_alignParentEnd="true"
             android:text="BTC"
             android:textSize="12sp"
-            android:paddingLeft="5dp"
-            android:layout_centerVertical="true"
-            android:textColor="@color/colorAccent"
+            android:layout_marginEnd="15dp"
+
+            android:textColor="@color/colorAccent" />
+
+        <ImageView
+            android:id="@+id/like_dislike_img"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@id/news_ticker"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_thumbs_up_down_white_24dp"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/news_dislike"
+            android:text="0"
+            android:layout_below="@+id/like_dislike_img"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:textColor="#c25959"
+        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/news_like"
+            android:text="0  "
+            android:layout_below="@+id/like_dislike_img"
+            android:layout_toStartOf="@+id/news_dislike"
+            android:textColor="#85c98c"/>
+
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
