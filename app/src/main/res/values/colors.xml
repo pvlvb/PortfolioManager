@@ -5,4 +5,5 @@
     <color name="colorAccent">#41E0D1</color>
     <color name="BackgroundItemColor">#2D3132</color>
     <color name="colorDivider">#393c3c</color>
+    <color name="colorNoItemsWarning">#c2c2c2</color>
 </resources>

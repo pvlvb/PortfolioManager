@@ -1,5 +1,7 @@
 package com.example.portfoliomanager;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.portfoliomanager.Model.LocalDataSource.Coin;
 import com.example.portfoliomanager.Model.LocalDataSource.News;
@@ -39,6 +42,7 @@ public class NewsFragment extends Fragment{
     private LinearLayoutManager linearLayoutManager;
     private ProgressBar progressBar;
     private TextView no_news_to_load;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -46,9 +50,11 @@ public class NewsFragment extends Fragment{
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.news_fragment, container, false);
 
+        //initializing elements
         recyclerView = view.findViewById(R.id.news_recyclerview);
         progressBar = view.findViewById(R.id.progress_bar);
         no_news_to_load = view.findViewById(R.id.no_news_msg);
+        swipeRefreshLayout = view.findViewById(R.id.swiperefresh_news);
 
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -65,12 +71,12 @@ public class NewsFragment extends Fragment{
             }
         });
 
+        //loading animations
         loadingStatusNews = newsFragmentViewModel.getStatus();
         loadingStatusNews.observe(getViewLifecycleOwner(), new Observer<LoadingStatus>() {
             @Override
             public void onChanged(LoadingStatus loadingStatus) {
                 if(loadingStatus == LoadingStatus.FAILED){
-                    //show toast
                     if(linearLayoutManager.getItemCount()==0){
                         no_news_to_load.setVisibility(View.VISIBLE);
                     }
@@ -80,24 +86,44 @@ public class NewsFragment extends Fragment{
                 if(loadingStatus == LoadingStatus.SUCCESSFUL) {
                     no_news_to_load.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
                 if(loadingStatus  == LoadingStatus.LOADING) {
-                    progressBar.setVisibility(View.VISIBLE);
+                    if(!swipeRefreshLayout.isRefreshing()){
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
 
-
+        // infinite loading
         endlessScrollEventListener = new EndlessScrollEventListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int pageNum, RecyclerView recyclerView) {
-                Log.e("", "onLoadMore: " + pageNum );
                 newsFragmentViewModel.getNews(pageNum);
             }
         };
         recyclerView.addOnScrollListener(endlessScrollEventListener);
 
-        //// TODO: 27.05.2020 add divider +, positivie negative rates and time posted ago and infinite scrolling
+        //on click browser opener
+        newsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(News news) {
+                String url = news.getUrl();
+                Intent open_browser = new Intent(Intent.ACTION_VIEW);
+                open_browser.setData(Uri.parse(url));
+                startActivity(open_browser);
+            }
+        });
+
+        //refresh on swipe up
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                newsFragmentViewModel.getNews(1);
+            }
+        });
+
         return view;
     }
 }

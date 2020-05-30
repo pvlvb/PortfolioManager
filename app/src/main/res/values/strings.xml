@@ -9,4 +9,5 @@
     <string name="top5mc_price_change">Price / Change</string>
     <string name="news">News</string>
     <string name="no_news_msg">Unfortunately, news can\'t be loaded right now.</string>
+    <string name="all_read">Congrats, you\'ve read all the news!</string>
 </resources>

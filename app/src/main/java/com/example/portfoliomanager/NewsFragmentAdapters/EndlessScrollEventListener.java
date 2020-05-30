@@ -37,7 +37,9 @@ public abstract class EndlessScrollEventListener extends RecyclerView.OnScrollLi
 
         if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
             currentPage++;
-            onLoadMore(currentPage, recyclerView);
+            if(currentPage <= 11){
+                onLoadMore(currentPage, recyclerView);
+            }
             loading = true;
         }
 

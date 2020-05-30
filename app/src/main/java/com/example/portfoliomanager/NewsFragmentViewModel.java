@@ -24,9 +24,9 @@ public class NewsFragmentViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<News>> getNews(int page_number){
+
         Log.e("", "getNews: " + page_number);
         return repository.refreshNews(page_number);
     }
     public MutableLiveData<LoadingStatus> getStatus(){ return repository.getNewsStatus();}
-    //TODO add news getting methods
 }

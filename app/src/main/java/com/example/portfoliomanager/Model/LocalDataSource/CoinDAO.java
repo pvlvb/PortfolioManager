@@ -47,7 +47,6 @@ public interface CoinDAO  {
     @Query("Delete from news_table")
     void deleteAllNews();
 
-    //TODO check if we can sort by time
     @Query("Select * from news_table ORDER BY time_posted ASC")
     LiveData<List<News>> getBlockOfNews();
 

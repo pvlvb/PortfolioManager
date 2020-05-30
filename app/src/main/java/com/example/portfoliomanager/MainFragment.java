@@ -117,7 +117,6 @@ public class MainFragment extends Fragment {
             topLosers = mainFragmentViewModel.getLosers();
 
         });
-        //TODO learn about dagger and about its usability in this app
         return view;
     }
 }

@@ -66,7 +66,6 @@ public class Repository {
                     }
                     else{
                         status.postValue(LoadingStatus.FAILED);
-                        //TODO notification
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -87,7 +86,6 @@ public class Repository {
                     }
                     else{
                         status.postValue(LoadingStatus.FAILED);
-                        //TODO unsuccessful loading notification
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -126,6 +124,4 @@ public class Repository {
         return newsStatus;
     }
 
-
-    //// TODO: 27.05.2020 check internet connection before loading
 }
