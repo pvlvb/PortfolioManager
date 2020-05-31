@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.News;
+import com.example.portfoliomanager.MainFragment.MainFragment;
+import com.example.portfoliomanager.NewsFragment.NewsFragment;
+import com.example.portfoliomanager.PMFragment.PMFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,14 +31,15 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.home:
                        if(!bottomNavigationView.getMenu().findItem(R.id.home).isChecked()){
-                            bottomNavigationView.getMenu().findItem(R.id.home).setChecked(true);
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MainFragment()).commit();
+                           bottomNavigationView.getMenu().findItem(R.id.home).setChecked(true);
+                           getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MainFragment()).commit();
                         }
                         break;
                     case R.id.portfolio:
-//                        if(bottomNavigationView.getSelectedItemId() != R.id.portfolio){
-//                            bottomNavigationView.setSelectedItemId(R.id.portfolio);
-//                        }
+                        if(!bottomNavigationView.getMenu().findItem(R.id.portfolio).isChecked()){
+                            bottomNavigationView.getMenu().findItem(R.id.portfolio).setChecked(true);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new PMFragment()).commit();
+                        }
                         break;
                 }
                 return false;

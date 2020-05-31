@@ -1,13 +1,11 @@
-package com.example.portfoliomanager;
+package com.example.portfoliomanager.NewsFragment;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,11 +22,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.portfoliomanager.Model.LocalDataSource.Coin;
 import com.example.portfoliomanager.Model.LocalDataSource.News;
 import com.example.portfoliomanager.Model.Repository.LoadingStatus;
-import com.example.portfoliomanager.NewsFragmentAdapters.EndlessScrollEventListener;
-import com.example.portfoliomanager.NewsFragmentAdapters.NewsAdapter;
+import com.example.portfoliomanager.NewsFragment.NewsFragmentAdapters.EndlessScrollEventListener;
+import com.example.portfoliomanager.NewsFragment.NewsFragmentAdapters.NewsAdapter;
+import com.example.portfoliomanager.R;
 
 import java.util.List;
 import java.util.Objects;
@@ -109,10 +107,12 @@ public class NewsFragment extends Fragment{
         newsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(News news) {
-                String url = news.getUrl();
-                Intent open_browser = new Intent(Intent.ACTION_VIEW);
-                open_browser.setData(Uri.parse(url));
-                startActivity(open_browser);
+                if(news != null){
+                    String url = news.getUrl();
+                    Intent open_browser = new Intent(Intent.ACTION_VIEW);
+                    open_browser.setData(Uri.parse(url));
+                    startActivity(open_browser);
+                }
             }
         });
 

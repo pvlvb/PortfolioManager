@@ -1,11 +1,8 @@
-package com.example.portfoliomanager.NewsFragmentAdapters;
+package com.example.portfoliomanager.NewsFragment.NewsFragmentAdapters;
 
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,11 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.portfoliomanager.Model.LocalDataSource.News;
 import com.example.portfoliomanager.R;
 
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +39,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
             holder.textViewTitle.setText(curr.getTitle());
             String time_posted;
             long t = curr.getTime_posted();
-            if(t >= 60){
+            if(t >= 60 && t < 1440){
                 time_posted = t/60 + "h";
             }
             else if(t >= 1440){

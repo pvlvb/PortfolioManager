@@ -1,5 +1,6 @@
 package com.example.portfoliomanager.Model.LocalDataSource;
 
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -49,5 +50,27 @@ public interface CoinDAO  {
 
     @Query("Select * from news_table ORDER BY time_posted ASC")
     LiveData<List<News>> getBlockOfNews();
+
+    @Insert
+    void insertPortfolioCoin(PortfolioCoin portfolioCoin);
+
+    @Query("UPDATE portfolio SET amount = amount + :amount, original_total_price = original_total_price + :original_price," +
+            " updated_total_price = updated_total_price + :updated_price where ticker = :ticker")
+    void updatePortfolioCoin(String ticker, double amount, double original_price, double updated_price);
+
+    @Query("SELECT * FROM portfolio ORDER BY updated_total_price DESC")
+    LiveData<List<PortfolioCoin>> getPortfolio();
+
+    @Query("Select sum(original_total_price) as portfolio_start_value,sum(updated_total_price) as portfolio_updated_value from portfolio")
+    LiveData<PortfolioValues> getValues();
+
+    @Query("Select ticker from portfolio where ticker = :ticker")
+    List<String> checkForTickerExistence(String ticker);
+
+//    @Query("Select  ticker, sum(amount), sum(updated_price_per_coin) from portfolio where ticker = :ticker ")
+//    LiveData<List<PortfolioCoin>> getCoinByTicker(String ticker);
+
+
+
 
 }

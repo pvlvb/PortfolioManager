@@ -1,4 +1,4 @@
-package com.example.portfoliomanager.NewsFragmentAdapters;
+package com.example.portfoliomanager.NewsFragment.NewsFragmentAdapters;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

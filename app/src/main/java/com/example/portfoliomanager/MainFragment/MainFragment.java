@@ -1,4 +1,4 @@
-package com.example.portfoliomanager;
+package com.example.portfoliomanager.MainFragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,10 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.portfoliomanager.MainFragmentAdapters.Top5CoinAdapter;
-import com.example.portfoliomanager.MainFragmentAdapters.Top5GainersAdapter;
+import com.example.portfoliomanager.MainFragment.MainFragmentAdapters.Top5CoinAdapter;
+import com.example.portfoliomanager.MainFragment.MainFragmentAdapters.Top5GainersAdapter;
 import com.example.portfoliomanager.Model.LocalDataSource.Coin;
 import com.example.portfoliomanager.Model.Repository.LoadingStatus;
+import com.example.portfoliomanager.R;
 
 import java.util.List;
 

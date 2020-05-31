@@ -1,4 +1,4 @@
-package com.example.portfoliomanager;
+package com.example.portfoliomanager.NewsFragment;
 
 import android.app.Application;
 import android.util.Log;
@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.portfoliomanager.Model.LocalDataSource.News;
 import com.example.portfoliomanager.Model.Repository.LoadingStatus;
 import com.example.portfoliomanager.Model.Repository.Repository;
+import com.example.portfoliomanager.PortfolioApp;
 
 import java.util.List;
 

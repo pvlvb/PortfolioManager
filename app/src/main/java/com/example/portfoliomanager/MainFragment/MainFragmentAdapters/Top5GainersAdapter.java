@@ -1,4 +1,4 @@
-package com.example.portfoliomanager.MainFragmentAdapters;
+package com.example.portfoliomanager.MainFragment.MainFragmentAdapters;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -14,18 +14,17 @@ import com.example.portfoliomanager.Model.LocalDataSource.Coin;
 import com.example.portfoliomanager.R;
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHolder> {
+public class Top5GainersAdapter extends RecyclerView.Adapter<Top5GainersAdapter.CoinHolder> {
     private List<Coin> coins = new ArrayList<>();
 
     @NonNull
     @Override
-    public CoinHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mainfragment_coin_item_top5_mc,parent,false);
-        return new CoinHolder(ItemView);
+    public Top5GainersAdapter.CoinHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mainfragment_coin_item_top5_gainers,parent,false);
+        return new Top5GainersAdapter.CoinHolder(ItemView);
     }
 
     @Override
@@ -35,12 +34,6 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
         holder.textViewTicker.setText(curr.getTicker());
         holder.textViewPrice.setText("$" + String.valueOf(curr.getPrice()));
         holder.textViewChange.setText(String.valueOf(curr.getChange24h()) + "%");
-        double marketcap = curr.getMarket_cap();
-        DecimalFormat df = new DecimalFormat("#.##");
-        marketcap /= 10E8;
-        marketcap = Double.parseDouble(df.format(marketcap));
-        String mc = "$" + String.valueOf(marketcap) + "B";
-        holder.textViewMC.setText(mc);
         if(curr.getChange24h()>=0){
             holder.textViewChange.setTextColor(Color.parseColor("#85c98c"));
         }
@@ -48,7 +41,6 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
             holder.textViewChange.setTextColor(Color.parseColor("#c25959"));
         }
     }
-
     @Override
     public int getItemCount() {
         return coins.size();
@@ -56,6 +48,7 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
 
     public void setCoins(List<Coin> coins){
         this.coins = coins;
+
         notifyDataSetChanged();
     }
 
@@ -63,7 +56,6 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
         private ImageView icon;
         private TextView textViewTicker;
         private TextView textViewPrice;
-        private TextView textViewMC;
         private TextView textViewChange;
         public CoinHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,7 +63,8 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
             textViewTicker = itemView.findViewById(R.id.ticker);
             textViewPrice = itemView.findViewById(R.id.price);
             textViewChange = itemView.findViewById(R.id.change);
-            textViewMC = itemView.findViewById(R.id.market_cap);
         }
     }
+
+
 }

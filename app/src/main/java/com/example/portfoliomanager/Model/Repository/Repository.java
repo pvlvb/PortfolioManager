@@ -8,6 +8,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.portfoliomanager.Model.LocalDataSource.Coin;
 import com.example.portfoliomanager.Model.LocalDataSource.LocalDataSource;
 import com.example.portfoliomanager.Model.LocalDataSource.News;
+import com.example.portfoliomanager.Model.LocalDataSource.PortfolioCoin;
+import com.example.portfoliomanager.Model.LocalDataSource.PortfolioValues;
+import com.example.portfoliomanager.Model.RemoteDataSource.BinanceConverter.BinanceCoin;
 import com.example.portfoliomanager.Model.RemoteDataSource.CMC_TopMarketCap_Converter.Result;
 import com.example.portfoliomanager.Model.RemoteDataSource.RemoteDataSource;
 
@@ -23,6 +26,7 @@ public class Repository {
     private LiveData<List<Coin>> coins;
     private MutableLiveData<LoadingStatus> status = new MutableLiveData<LoadingStatus>();
     private MutableLiveData<LoadingStatus> newsStatus = new MutableLiveData<LoadingStatus>();
+    private MutableLiveData<LoadingStatus> addCoinStatus = new MutableLiveData<LoadingStatus>();
 
     public Repository(LocalDataSource localDataSource, RemoteDataSource remoteDataSource){
         this.localDataSource = localDataSource;
@@ -124,4 +128,54 @@ public class Repository {
         return newsStatus;
     }
 
+    public void addPortfolioCoin(String ticker, double amount, double price_per_coin) {
+        addCoinStatus.postValue(LoadingStatus.LOADING);
+
+            executorService.execute(new Runnable() {
+                @Override
+                public void run()
+                {
+                    List<String> existence = localDataSource.checkForExistence(ticker);
+                    if(existence.size()==0) {
+                        try {
+                            BinanceCoin result = remoteDataSource.getPrice(ticker);
+                            if (result == null) {
+                                addCoinStatus.postValue(LoadingStatus.FAILED);
+                            } else {
+                                localDataSource.putPortfolioCoin(ticker, amount, price_per_coin, Double.parseDouble(result.getPrice()));
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else{
+                        try {
+                            BinanceCoin result = remoteDataSource.getPrice(ticker);
+                            if(result == null){
+                                addCoinStatus.postValue(LoadingStatus.FAILED);
+                            }
+                            else{
+                                localDataSource.updatePortfolioCoin(ticker, amount, price_per_coin, Double.parseDouble(result.getPrice()));
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            });
+
+    }
+
+    public LiveData<List<PortfolioCoin>> getPortfolio() {
+        return localDataSource.getPortfolio();
+    }
+
+    public LiveData<PortfolioValues> getPortfolioValues(){
+        return localDataSource.getPortfolioValues();
+    }
+
+    public MutableLiveData<LoadingStatus> getAddCoinStatus() {
+        return addCoinStatus;
+    }
 }

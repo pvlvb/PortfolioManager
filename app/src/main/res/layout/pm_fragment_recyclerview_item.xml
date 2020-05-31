@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2D3132"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        >
+        <TextView
+            android:id="@+id/pm_ticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="5dp"
+            android:paddingEnd="20dp"
+            android:text="BTC"
+            android:layout_alignParentLeft="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/pm_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="16sp"
+            android:text="1.003"
+            android:layout_centerInParent="true"
+            />
+        <TextView
+            android:id="@+id/total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="5dp"
+            android:paddingEnd="20dp"
+            android:text="$10000"
+            android:layout_centerVertical="true"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:layout_alignParentRight="true"/>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
