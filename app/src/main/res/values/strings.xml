@@ -10,4 +10,6 @@
     <string name="news">News</string>
     <string name="no_news_msg">Unfortunately, news can\'t be loaded right now.</string>
     <string name="all_read">Congrats, you\'ve read all the news!</string>
+    <string name="TickerUI">Ticker:</string>
+    <string name="AmountUI">Amount:</string>
 </resources>

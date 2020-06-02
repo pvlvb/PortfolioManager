@@ -36,6 +36,7 @@ public class LocalDataSource {
         return coinDAO.getValues();
     }
 
+
     public void clearNews(){
         coinDAO.deleteAllNews();
     }
@@ -86,10 +87,30 @@ public class LocalDataSource {
         return coinDAO.checkForTickerExistence(ticker);
     }
 
+    public List<String> getTickers(){
+        return coinDAO.getTickers();
+    }
+
+    public PortfolioCoin getOriginalCoinPrice(String ticker) {
+        return coinDAO.getOriginalCoinPrice(ticker);
+    }
+
     public void updatePortfolioCoin(String ticker, double amount, double price_per_coin, double update_price_per_coin){
         coinDAO.updatePortfolioCoin(ticker, amount, price_per_coin*amount, update_price_per_coin*amount);
     }
 
+
+    public void updatePortfolioCoinPrice(String ticker, double amount, double updated_price) {
+        coinDAO.updatePortfolioCoinPrice(ticker,amount*updated_price);
+    }
+
+    public void decreasePortfolioCoin(String ticker, double amount, double price_per_coin){
+        coinDAO.decreasePortfolioCoin(ticker, amount, price_per_coin);
+    }
+
+    public void deletePortfolioCoin(String ticker) {
+        coinDAO.deletePortfolioCoin(ticker);
+    }
 }
 
 

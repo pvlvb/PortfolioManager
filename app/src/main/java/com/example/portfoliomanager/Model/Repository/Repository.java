@@ -1,7 +1,5 @@
 package com.example.portfoliomanager.Model.Repository;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -140,9 +138,10 @@ public class Repository {
                         try {
                             BinanceCoin result = remoteDataSource.getPrice(ticker);
                             if (result == null) {
-                                addCoinStatus.postValue(LoadingStatus.FAILED);
+                                addCoinStatus.postValue(LoadingStatus.TICKER_ERROR);
                             } else {
                                 localDataSource.putPortfolioCoin(ticker, amount, price_per_coin, Double.parseDouble(result.getPrice()));
+                                addCoinStatus.postValue(LoadingStatus.ADDED);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -156,6 +155,7 @@ public class Repository {
                             }
                             else{
                                 localDataSource.updatePortfolioCoin(ticker, amount, price_per_coin, Double.parseDouble(result.getPrice()));
+                                addCoinStatus.postValue(LoadingStatus.ADDED);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -165,6 +165,32 @@ public class Repository {
                 }
             });
 
+    }
+
+    public void updatePortfolioPrices() {
+        addCoinStatus.postValue(LoadingStatus.LOADING);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<String> tickers = localDataSource.getTickers();
+                for (int i = 0; i < tickers.size(); ++i) {
+                    try {
+                        BinanceCoin t = remoteDataSource.getPrice(tickers.get(i));
+                        PortfolioCoin portfolioCoin = localDataSource.getOriginalCoinPrice(tickers.get(i));
+                        if(t==null){
+                            addCoinStatus.postValue(LoadingStatus.FAILED);
+                            return;
+                        }
+                        else{
+                            localDataSource.updatePortfolioCoinPrice(tickers.get(i),portfolioCoin.getAmount(), Double.parseDouble(t.getPrice()));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                addCoinStatus.postValue(LoadingStatus.SUCCESSFUL);
+            }
+        });
     }
 
     public LiveData<List<PortfolioCoin>> getPortfolio() {
@@ -177,5 +203,24 @@ public class Repository {
 
     public MutableLiveData<LoadingStatus> getAddCoinStatus() {
         return addCoinStatus;
+    }
+
+
+    public void decreasePortfolioCoin(String ticker, double amount) {
+        addCoinStatus.postValue(LoadingStatus.LOADING);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                PortfolioCoin t = localDataSource.getOriginalCoinPrice(ticker);
+                if(amount == t.getAmount()){
+                    localDataSource.deletePortfolioCoin(ticker);
+                }
+                else{
+                    localDataSource.decreasePortfolioCoin(ticker, amount, t.getOriginal_total_price()/t.getAmount());
+                }
+                addCoinStatus.postValue(LoadingStatus.EDITED);
+            }
+        });
+
     }
 }

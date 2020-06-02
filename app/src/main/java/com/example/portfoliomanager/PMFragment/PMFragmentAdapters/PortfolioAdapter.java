@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.portfoliomanager.Model.LocalDataSource.PortfolioCoin;
+import com.example.portfoliomanager.Model.RemoteDataSource.BinanceConverter.BinanceCoin;
 import com.example.portfoliomanager.R;
 
 import java.text.DecimalFormat;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.CoinHolder> {
     private List<PortfolioCoin> coins = new ArrayList<>();
+    private OnItemClickListenerPM onItemClickListener;
 
     @NonNull
     @Override
@@ -44,6 +46,9 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.Coin
         notifyDataSetChanged();
     }
 
+    public void setOnItemClickListener(OnItemClickListenerPM listener) {
+        onItemClickListener = listener;
+    }
     class CoinHolder extends RecyclerView.ViewHolder{
         private TextView textViewTicker;
         private TextView textViewQuantity;
@@ -53,7 +58,23 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.Coin
             textViewTicker = itemView.findViewById(R.id.pm_ticker);
             textViewQuantity = itemView.findViewById(R.id.pm_quantity);
             textViewTotalPrice = itemView.findViewById(R.id.total_price);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if(onItemClickListener != null && pos != RecyclerView.NO_POSITION){
+                        onItemClickListener.onItemClick(coins.get(pos));
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListenerPM {
+        void onItemClick(PortfolioCoin portfolioCoin);
+    }
+    public void setOnItemClickListenerPM(OnItemClickListenerPM listener) {
+        onItemClickListener = listener;
     }
 
     private String processNumbers(double num){

@@ -11,7 +11,8 @@
         android:hint="Ticker"
         android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="4dp"/>
+        android:layout_marginEnd="4dp"
+        android:inputType="text"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +29,8 @@
         android:maxLength="10"
         android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp"
+        android:inputType="numberDecimal"/>
     <EditText
         android:id="@+id/enter_price_per_coin"
         android:layout_width="match_parent"
@@ -37,7 +39,8 @@
         android:hint="Price (per coin)"
         android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp"
+        android:inputType="numberDecimal"/>
 
 
 

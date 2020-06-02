@@ -35,8 +35,15 @@ public class PMFragmentViewModel extends AndroidViewModel {
 
     public LiveData<PortfolioValues> getPortfolioValues(){ return repository.getPortfolioValues(); }
 
+    public void updatePortfolioPrices(){
+        repository.updatePortfolioPrices();
+    }
+
     public MutableLiveData<LoadingStatus> getAddCoinStatus(){
         return repository.getAddCoinStatus();
     }
 
+    public void decreasePortfolioCoin(String ticker, double amount) {
+        repository.decreasePortfolioCoin(ticker,amount);
+    }
 }

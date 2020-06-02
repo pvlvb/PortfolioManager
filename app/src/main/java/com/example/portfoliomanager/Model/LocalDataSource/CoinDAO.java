@@ -51,7 +51,7 @@ public interface CoinDAO  {
     @Query("Select * from news_table ORDER BY time_posted ASC")
     LiveData<List<News>> getBlockOfNews();
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertPortfolioCoin(PortfolioCoin portfolioCoin);
 
     @Query("UPDATE portfolio SET amount = amount + :amount, original_total_price = original_total_price + :original_price," +
@@ -67,8 +67,21 @@ public interface CoinDAO  {
     @Query("Select ticker from portfolio where ticker = :ticker")
     List<String> checkForTickerExistence(String ticker);
 
-//    @Query("Select  ticker, sum(amount), sum(updated_price_per_coin) from portfolio where ticker = :ticker ")
-//    LiveData<List<PortfolioCoin>> getCoinByTicker(String ticker);
+    @Query("Select ticker from portfolio")
+    List<String> getTickers();
+
+    @Query("Select * from portfolio where ticker = :ticker")
+    PortfolioCoin getOriginalCoinPrice(String ticker);
+
+    @Query("UPDATE portfolio SET " +
+            " updated_total_price = :updated_price where ticker = :ticker")
+    void updatePortfolioCoinPrice(String ticker, double updated_price);
+
+    @Query("UPDATE portfolio SET amount = amount - :amount, original_total_price = original_total_price - :amount*:original_price where ticker = :ticker")
+    void decreasePortfolioCoin(String ticker, double amount, double original_price);
+
+    @Query("DELETE from portfolio where ticker = :ticker")
+    void deletePortfolioCoin(String ticker);
 
 
 

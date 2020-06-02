@@ -1,70 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
-
-    <RelativeLayout
+    android:id="@+id/pm_swiperefresh">
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorDivider"
-        android:id="@+id/top_pm"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/top_pm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorDivider">
+
+            <TextView
+                android:id="@+id/total_value_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="10000$"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/app_logo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_material_product_icon_192px"
+
+
+                />
+
+            <TextView
+                android:id="@+id/total_profit_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="20dp"
+                android:paddingRight="10dp"
+                android:text="1000%"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+
+
         <TextView
-            android:id="@+id/total_value_num"
-            android:layout_alignParentLeft="true"
+            android:id="@+id/explanation_ticker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="10000$"
-            android:layout_marginTop="20dp"
-            android:textSize="18sp" />
+            android:layout_below="@+id/top_pm"
+            android:layout_marginLeft="25dp"
+            android:text="@string/top5mc_nametxt" />
 
-        <ImageView
-            android:id="@+id/app_logo"
-
+        <TextView
+            android:id="@+id/explanation_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_below="@+id/top_pm"
+            android:layout_centerHorizontal="true"
+            android:text="Amount" />
 
-            />
         <TextView
-            android:id="@+id/total_profit_num"
+            android:id="@+id/explanation_tp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top_pm"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:text="Total price" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pm_recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1000%"
-            android:layout_marginTop="20dp"
+            android:layout_below="@+id/explanation_ticker"
+            tools:listitem="@layout/pm_fragment_recyclerview_item" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginStart="5dp"
-            android:paddingRight="10dp"
-            android:textSize="18sp" />
-
-
+            android:src="@drawable/ic_add_white_24dp" />
 
     </RelativeLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pm_recycler_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/pm_fragment_recyclerview_item"
-        android:layout_below="@+id/top_pm" />
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/ic_add_white_24dp"
-        />
-
-</RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
