@@ -67,9 +67,6 @@ public class PMFragment extends Fragment {
     private MutableLiveData<LoadingStatus> coinAddingStatus;
 
 
-
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,13 +94,12 @@ public class PMFragment extends Fragment {
             @Override
             public void onChanged(PortfolioValues portfolioValues) {
                 String updated_value = processNumbers(portfolioValues.getPortfolio_updated_value());
-                String profit = processNumbers(portfolioValues.getPortfolio_updated_value()-portfolioValues.getPortfolio_start_value());
-                total_portfolio_value.setText((updated_value)+"$");
+                String profit = processNumbers(portfolioValues.getPortfolio_updated_value() - portfolioValues.getPortfolio_start_value());
+                total_portfolio_value.setText((updated_value) + "$");
                 total_portfolio_profit.setText((profit) + "$");
-                if(portfolioValues.getPortfolio_updated_value()-portfolioValues.getPortfolio_start_value() >= 0){
+                if (portfolioValues.getPortfolio_updated_value() - portfolioValues.getPortfolio_start_value() >= 0) {
                     total_portfolio_profit.setTextColor(Color.parseColor("#85c98c"));
-                }
-                else{
+                } else {
                     total_portfolio_profit.setTextColor(Color.parseColor("#c25959"));
                 }
             }
@@ -111,29 +107,29 @@ public class PMFragment extends Fragment {
         coinAddingStatus.observe(getViewLifecycleOwner(), new Observer<LoadingStatus>() {
             @Override
             public void onChanged(LoadingStatus loadingStatus) {
-                if(loadingStatus == LoadingStatus.SUCCESSFUL){
+                if (loadingStatus == LoadingStatus.SUCCESSFUL) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
-                if(loadingStatus == LoadingStatus.ADDED){
+                if (loadingStatus == LoadingStatus.ADDED) {
                     showMessage("Coin added");
                     enter_amount.setText("");
                     enter_price_per_coin.setText("");
                     enter_ticker.setText("");
-                    closeAddCoinDialog();;
+                    closeAddCoinDialog();
                 }
-                if(loadingStatus == LoadingStatus.EDITED){
+                if (loadingStatus == LoadingStatus.EDITED) {
                     showMessage("Coin edited");
                     edit_coin_amount.setText("");
                     edit_price_per_coin.setText("");
                     closeEditCoinDialog();
                 }
-                if(loadingStatus == LoadingStatus.TICKER_ERROR){
+                if (loadingStatus == LoadingStatus.TICKER_ERROR) {
                     showMessage("Invalid ticker");
 
                 }
-                if(loadingStatus == LoadingStatus.FAILED){
+                if (loadingStatus == LoadingStatus.FAILED) {
                     showMessage("Loading failed");
-                    swipeRefreshLayout.setRefreshing(true);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
@@ -152,7 +148,6 @@ public class PMFragment extends Fragment {
                 showEditCoinDialog();
             }
         });
-
 
 
         //fab add coin dialog
@@ -176,26 +171,24 @@ public class PMFragment extends Fragment {
     }
 
 
-
     private AlertDialog createAddCoinDialog() {
 
         View view = getActivity().getLayoutInflater().inflate(R.layout.coin_add_dialog, null);
         enter_ticker = view.findViewById(R.id.enter_ticker);
         enter_amount = view.findViewById(R.id.enter_amount);
         enter_price_per_coin = view.findViewById(R.id.enter_price_per_coin);
-        AlertDialog alertDialogBuilder = new AlertDialog.Builder(getActivity()).setView(view).setNegativeButton("Cancel",null)
-                .setPositiveButton("Add",null).create();
+        AlertDialog alertDialogBuilder = new AlertDialog.Builder(getActivity()).setView(view).setNegativeButton("Cancel", null)
+                .setPositiveButton("Add", null).create();
         alertDialogBuilder.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
                 Button pos_button = alertDialogBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
-                pos_button.setOnClickListener(new View.OnClickListener(){
+                pos_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (TextUtils.isEmpty(enter_ticker.getText()) || TextUtils.isEmpty(enter_amount.getText()) || TextUtils.isEmpty(enter_price_per_coin.getText())) {
                             showMessage("All fields are required.");
-                        }
-                        else{
+                        } else {
                             onPositiveAddCoinClick(enter_ticker.getText().toString(),
                                     Double.parseDouble(enter_amount.getText().toString()),
                                     Double.parseDouble(enter_price_per_coin.getText().toString()));
@@ -203,7 +196,7 @@ public class PMFragment extends Fragment {
                     }
                 });
                 Button neg_button = alertDialogBuilder.getButton(AlertDialog.BUTTON_NEGATIVE);
-                neg_button.setOnClickListener(new View.OnClickListener(){
+                neg_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         enter_ticker.setText("");
@@ -237,33 +230,29 @@ public class PMFragment extends Fragment {
 
         edit_price_per_coin = view.findViewById(R.id.enter_price_per_coin);
 
-        AlertDialog alertDialogBuilder = new AlertDialog.Builder(getActivity()).setView(view).setNegativeButton("Cancel",null)
-                .setPositiveButton("Add",null).create();
+        AlertDialog alertDialogBuilder = new AlertDialog.Builder(getActivity()).setView(view).setNegativeButton("Cancel", null)
+                .setPositiveButton("Add", null).create();
         alertDialogBuilder.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
                 Button pos_button = alertDialogBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
-                pos_button.setOnClickListener(new View.OnClickListener(){
+                pos_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(edit_dec_inc_choose.getCheckedRadioButtonId() == -1 || edit_coin_amount.getText().toString().isEmpty()){
+                        if (edit_dec_inc_choose.getCheckedRadioButtonId() == -1 || edit_coin_amount.getText().toString().isEmpty()) {
                             showMessage("Please, decide what operation you want to do.");
-                        }
-                        else{
-                            if(coin_edit_method && !edit_price_per_coin.getText().toString().isEmpty()){
-                                onPositiveEditCoinClick(edit_coin_ticker_ui.getText().toString().toUpperCase(),Double.parseDouble(edit_coin_amount.getText().toString()),
-                                        Double.parseDouble(edit_price_per_coin.getText().toString()),true);
+                        } else {
+                            if (coin_edit_method && !edit_price_per_coin.getText().toString().isEmpty()) {
+                                onPositiveEditCoinClick(edit_coin_ticker_ui.getText().toString().toUpperCase(), Double.parseDouble(edit_coin_amount.getText().toString()),
+                                        Double.parseDouble(edit_price_per_coin.getText().toString()), true);
                                 closeEditCoinDialog();
-                            }
-                            else if (coin_edit_method && !edit_price_per_coin.getText().toString().isEmpty()){
+                            } else if (coin_edit_method && !edit_price_per_coin.getText().toString().isEmpty()) {
                                 showMessage("Please, enter per coin price.");
-                            }
-                            else{
-                                if(Double.parseDouble(edit_coin_amount.getText().toString()) > 0 && Double.parseDouble(edit_coin_amount.getText().toString()) <= Double.parseDouble(edit_coin_amount_ui.getText().toString())){
-                                    onPositiveEditCoinClick(edit_coin_ticker_ui.getText().toString(),Double.parseDouble(edit_coin_amount.getText().toString()),
-                                            0,false);
-                                }
-                                else{
+                            } else {
+                                if (Double.parseDouble(edit_coin_amount.getText().toString()) > 0 && Double.parseDouble(edit_coin_amount.getText().toString()) <= Double.parseDouble(edit_coin_amount_ui.getText().toString())) {
+                                    onPositiveEditCoinClick(edit_coin_ticker_ui.getText().toString(), Double.parseDouble(edit_coin_amount.getText().toString()),
+                                            0, false);
+                                } else {
                                     showMessage("You can't remove more than you have.");
                                 }
 
@@ -272,7 +261,7 @@ public class PMFragment extends Fragment {
                     }
                 });
                 Button neg_button = alertDialogBuilder.getButton(AlertDialog.BUTTON_NEGATIVE);
-                neg_button.setOnClickListener(new View.OnClickListener(){
+                neg_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         enter_ticker.setText("");
@@ -292,12 +281,11 @@ public class PMFragment extends Fragment {
     }
 
     private void onPositiveEditCoinClick(String ticker, double amount, double price_per_coin, boolean coin_edit_method) {
-        if(coin_edit_method){
-            pmFragmentViewModel.addPortfolioCoin(ticker,amount,price_per_coin);
+        if (coin_edit_method) {
+            pmFragmentViewModel.addPortfolioCoin(ticker, amount, price_per_coin);
             pmFragmentViewModel.updatePortfolioPrices();
-        }
-        else{
-            pmFragmentViewModel.decreasePortfolioCoin(ticker,amount);
+        } else {
+            pmFragmentViewModel.decreasePortfolioCoin(ticker, amount);
             pmFragmentViewModel.updatePortfolioPrices();
         }
 
@@ -328,14 +316,13 @@ public class PMFragment extends Fragment {
         coindAddDialog.show();
     }
 
-    private String processNumbers(double num){
+    private String processNumbers(double num) {
         DecimalFormat df = new DecimalFormat("#.####");
         String result;
-        if(num >= 10E8){
+        if (num >= 10E8) {
             num /= 10E8;
-            result = Double.toString(num) + "B";
-        }
-        else{
+            result = num + "B";
+        } else {
             result = df.format(num);
         }
 
@@ -343,11 +330,11 @@ public class PMFragment extends Fragment {
     }
 
 
-    private View.OnClickListener radioGroupListener = new View.OnClickListener(){
+    private View.OnClickListener radioGroupListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             RadioButton rb = (RadioButton) view;
-            switch (rb.getId()){
+            switch (rb.getId()) {
                 case R.id.pm_increase:
                     coin_edit_method = true;
                     edit_price_per_coin.setVisibility(View.VISIBLE);
@@ -360,7 +347,7 @@ public class PMFragment extends Fragment {
         }
     };
 
-    private void showMessage(String text){
+    private void showMessage(String text) {
         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
     }
 

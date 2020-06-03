@@ -23,7 +23,7 @@ public class Top5GainersAdapter extends RecyclerView.Adapter<Top5GainersAdapter.
     @NonNull
     @Override
     public Top5GainersAdapter.CoinHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mainfragment_coin_item_top5_gainers,parent,false);
+        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mainfragment_coin_item_top5_gainers, parent, false);
         return new Top5GainersAdapter.CoinHolder(ItemView);
     }
 
@@ -32,31 +32,32 @@ public class Top5GainersAdapter extends RecyclerView.Adapter<Top5GainersAdapter.
         Coin curr = coins.get(position);
         Picasso.get().load(curr.getImage()).into(holder.icon);
         holder.textViewTicker.setText(curr.getTicker());
-        holder.textViewPrice.setText("$" + String.valueOf(curr.getPrice()));
-        holder.textViewChange.setText(String.valueOf(curr.getChange24h()) + "%");
-        if(curr.getChange24h()>=0){
+        holder.textViewPrice.setText("$" + curr.getPrice());
+        holder.textViewChange.setText(curr.getChange24h() + "%");
+        if (curr.getChange24h() >= 0) {
             holder.textViewChange.setTextColor(Color.parseColor("#85c98c"));
-        }
-        else{
+        } else {
             holder.textViewChange.setTextColor(Color.parseColor("#c25959"));
         }
     }
+
     @Override
     public int getItemCount() {
         return coins.size();
     }
 
-    public void setCoins(List<Coin> coins){
+    public void setCoins(List<Coin> coins) {
         this.coins = coins;
 
         notifyDataSetChanged();
     }
 
-    class CoinHolder extends RecyclerView.ViewHolder{
+    class CoinHolder extends RecyclerView.ViewHolder {
         private ImageView icon;
         private TextView textViewTicker;
         private TextView textViewPrice;
         private TextView textViewChange;
+
         public CoinHolder(@NonNull View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.img);

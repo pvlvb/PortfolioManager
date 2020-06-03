@@ -2,8 +2,6 @@ package com.example.portfoliomanager;
 
 import android.app.Application;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.portfoliomanager.Model.LocalDataSource.CoinDB;
 import com.example.portfoliomanager.Model.LocalDataSource.LocalDataSource;
 import com.example.portfoliomanager.Model.RemoteDataSource.BinanceAPI;
@@ -22,15 +20,14 @@ public class PortfolioApp extends Application {
     Retrofit CMCretrofit;
     Retrofit CPretrofit;
     Retrofit BNretorift;
-    private VMProviderFactory vmProviderFactory;
     private static CoinMarketCapAPI coinMarketCapAPI;
     private static CryptoPanicAPI cryptoPanicAPI;
     private static BinanceAPI binanceAPI;
+
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        vmProviderFactory = new VMProviderFactory();
         coinDB = CoinDB.getInstance(instance);
         CMCretrofit = new Retrofit.Builder().baseUrl("https://pro-api.coinmarketcap.com/").addConverterFactory(GsonConverterFactory.create()).build();
         coinMarketCapAPI = CMCretrofit.create(CoinMarketCapAPI.class);
@@ -41,20 +38,30 @@ public class PortfolioApp extends Application {
         repository = new Repository(new LocalDataSource(), new RemoteDataSource());
 
     }
-    public Repository getRepository(){
+
+    public Repository getRepository() {
         return repository;
     }
+
     public static PortfolioApp getInstance() {
         return instance;
     }
-    public CoinDB getCoinDB(){
+
+    public CoinDB getCoinDB() {
         return coinDB;
     }
-    public CoinMarketCapAPI getCMCApi(){return coinMarketCapAPI;}
-    public CryptoPanicAPI getCPApi(){return cryptoPanicAPI;}
-    public BinanceAPI getBinanceAPI(){ return binanceAPI; }
-    public ViewModelProvider.Factory getFactory(){
-        return vmProviderFactory;
+
+    public CoinMarketCapAPI getCMCApi() {
+        return coinMarketCapAPI;
     }
+
+    public CryptoPanicAPI getCPApi() {
+        return cryptoPanicAPI;
+    }
+
+    public BinanceAPI getBinanceAPI() {
+        return binanceAPI;
+    }
+
 
 }

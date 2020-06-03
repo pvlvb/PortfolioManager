@@ -2,6 +2,7 @@ package com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 public class Source {
     @SerializedName("title")
     @Expose

@@ -14,8 +14,6 @@ import com.example.portfoliomanager.Model.Repository.Repository;
 import com.example.portfoliomanager.PortfolioApp;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class PMFragmentViewModel extends AndroidViewModel {
     private Repository repository;
@@ -25,25 +23,27 @@ public class PMFragmentViewModel extends AndroidViewModel {
         repository = PortfolioApp.getInstance().getRepository();
     }
 
-    public void addPortfolioCoin(String ticker, double amount, double price_per_coin){
-        repository.addPortfolioCoin(ticker,amount,price_per_coin);
+    public void addPortfolioCoin(String ticker, double amount, double price_per_coin) {
+        repository.addPortfolioCoin(ticker, amount, price_per_coin);
     }
 
-    public LiveData<List<PortfolioCoin>> getPortoflio(){
+    public LiveData<List<PortfolioCoin>> getPortoflio() {
         return repository.getPortfolio();
     }
 
-    public LiveData<PortfolioValues> getPortfolioValues(){ return repository.getPortfolioValues(); }
+    public LiveData<PortfolioValues> getPortfolioValues() {
+        return repository.getPortfolioValues();
+    }
 
-    public void updatePortfolioPrices(){
+    public void updatePortfolioPrices() {
         repository.updatePortfolioPrices();
     }
 
-    public MutableLiveData<LoadingStatus> getAddCoinStatus(){
+    public MutableLiveData<LoadingStatus> getAddCoinStatus() {
         return repository.getAddCoinStatus();
     }
 
     public void decreasePortfolioCoin(String ticker, double amount) {
-        repository.decreasePortfolioCoin(ticker,amount);
+        repository.decreasePortfolioCoin(ticker, amount);
     }
 }

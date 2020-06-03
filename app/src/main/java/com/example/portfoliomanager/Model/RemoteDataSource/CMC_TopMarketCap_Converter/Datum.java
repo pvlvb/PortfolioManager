@@ -43,9 +43,11 @@ public class Datum {
         this.name = name;
     }
 
-    public String getSymbol(){ return symbol;}
+    public String getSymbol() {
+        return symbol;
+    }
 
-    public void setSymbol(String symbol){
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 

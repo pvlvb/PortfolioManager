@@ -35,7 +35,6 @@ public class MainFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
 
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -45,27 +44,26 @@ public class MainFragment extends Fragment {
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
 
 
-
         //recyclers
         RecyclerView topMCRecyclerView = view.findViewById(R.id.top5_recyclerview);
         RecyclerView topGainersRecyclerView = view.findViewById(R.id.gainers_recyclerview);
         RecyclerView topLosersRecyclerView = view.findViewById(R.id.losers);
 
-        topMCRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()){
+        topMCRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
             @Override
-            public boolean canScrollVertically(){
+            public boolean canScrollVertically() {
                 return false;
             }
         });
-        topGainersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()){
+        topGainersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
             @Override
-            public boolean canScrollVertically(){
+            public boolean canScrollVertically() {
                 return false;
             }
         });
-        topLosersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()){
+        topLosersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
             @Override
-            public boolean canScrollVertically(){
+            public boolean canScrollVertically() {
                 return false;
             }
         });
@@ -102,17 +100,16 @@ public class MainFragment extends Fragment {
         loadingStatus.observe(getViewLifecycleOwner(), new Observer<LoadingStatus>() {
             @Override
             public void onChanged(LoadingStatus loadingStatus) {
-                if(loadingStatus == LoadingStatus.FAILED){
-                    Toast.makeText( getContext() , "Loading failed", Toast.LENGTH_SHORT).show();
+                if (loadingStatus == LoadingStatus.FAILED) {
+                    Toast.makeText(getContext(), "Loading failed", Toast.LENGTH_SHORT).show();
                     swipeRefreshLayout.setRefreshing(false);
-                }
-                else if(loadingStatus == LoadingStatus.SUCCESSFUL){
+                } else if (loadingStatus == LoadingStatus.SUCCESSFUL) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
 
-        swipeRefreshLayout.setOnRefreshListener (() -> {
+        swipeRefreshLayout.setOnRefreshListener(() -> {
             topMC = mainFragmentViewModel.getTOPMC();
             topGainers = mainFragmentViewModel.getGainers();
             topLosers = mainFragmentViewModel.getLosers();

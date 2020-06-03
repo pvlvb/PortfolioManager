@@ -24,10 +24,16 @@ public class NewsFragmentViewModel extends AndroidViewModel {
         repository = PortfolioApp.getInstance().getRepository();
     }
 
-    public LiveData<List<News>> getNews(int page_number){
-
-        Log.e("", "getNews: " + page_number);
-        return repository.refreshNews(page_number);
+    public void updateNews(int page_number) {
+        repository.refreshNews(page_number);
     }
-    public MutableLiveData<LoadingStatus> getStatus(){ return repository.getNewsStatus();}
+
+    public LiveData<List<News>> getNews() {
+        return repository.getNews();
+    }
+
+    public MutableLiveData<LoadingStatus> getStatus() {
+        return repository.getNewsStatus();
+    }
+
 }

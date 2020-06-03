@@ -39,7 +39,9 @@ public class Coin {
         return ticker;
     }
 
-    public double getMarket_cap(){ return market_cap; }
+    public double getMarket_cap() {
+        return market_cap;
+    }
 
     public double getPrice() {
         return price;

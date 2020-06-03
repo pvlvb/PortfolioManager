@@ -20,14 +20,16 @@ public abstract class EndlessScrollEventListener extends RecyclerView.OnScrollLi
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-        if(dy<0) return;
+        if (dy < 0) return;
         totalItemCount = mLinearLayoutManager.getItemCount();
         lastVisibleItemPosition = mLinearLayoutManager.findLastVisibleItemPosition();
 
         if (totalItemCount < previousTotalItemCount) {
             this.currentPage = this.startingPageIndex;
             this.previousTotalItemCount = totalItemCount;
-            if (totalItemCount == 0) { this.loading = true; }
+            if (totalItemCount == 0) {
+                this.loading = true;
+            }
         }
 
         if (loading && (totalItemCount > previousTotalItemCount)) {
@@ -37,7 +39,7 @@ public abstract class EndlessScrollEventListener extends RecyclerView.OnScrollLi
 
         if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
             currentPage++;
-            if(currentPage <= 11){
+            if (currentPage <= 11) {
                 onLoadMore(currentPage, recyclerView);
             }
             loading = true;

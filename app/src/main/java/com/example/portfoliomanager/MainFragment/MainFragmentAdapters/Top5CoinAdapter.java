@@ -24,7 +24,7 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
     @NonNull
     @Override
     public CoinHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mainfragment_coin_item_top5_mc,parent,false);
+        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mainfragment_coin_item_top5_mc, parent, false);
         return new CoinHolder(ItemView);
     }
 
@@ -33,18 +33,17 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
         Coin curr = coins.get(position);
         Picasso.get().load(curr.getImage()).into(holder.icon);
         holder.textViewTicker.setText(curr.getTicker());
-        holder.textViewPrice.setText("$" + String.valueOf(curr.getPrice()));
-        holder.textViewChange.setText(String.valueOf(curr.getChange24h()) + "%");
+        holder.textViewPrice.setText("$" + curr.getPrice());
+        holder.textViewChange.setText(curr.getChange24h() + "%");
         double marketcap = curr.getMarket_cap();
         DecimalFormat df = new DecimalFormat("#.##");
         marketcap /= 10E8;
         marketcap = Double.parseDouble(df.format(marketcap));
-        String mc = "$" + String.valueOf(marketcap) + "B";
+        String mc = "$" + marketcap + "B";
         holder.textViewMC.setText(mc);
-        if(curr.getChange24h()>=0){
+        if (curr.getChange24h() >= 0) {
             holder.textViewChange.setTextColor(Color.parseColor("#85c98c"));
-        }
-        else{
+        } else {
             holder.textViewChange.setTextColor(Color.parseColor("#c25959"));
         }
     }
@@ -54,17 +53,18 @@ public class Top5CoinAdapter extends RecyclerView.Adapter<Top5CoinAdapter.CoinHo
         return coins.size();
     }
 
-    public void setCoins(List<Coin> coins){
+    public void setCoins(List<Coin> coins) {
         this.coins = coins;
         notifyDataSetChanged();
     }
 
-    class CoinHolder extends RecyclerView.ViewHolder{
+    class CoinHolder extends RecyclerView.ViewHolder {
         private ImageView icon;
         private TextView textViewTicker;
         private TextView textViewPrice;
         private TextView textViewMC;
         private TextView textViewChange;
+
         public CoinHolder(@NonNull View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.img);

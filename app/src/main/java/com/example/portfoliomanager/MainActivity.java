@@ -1,8 +1,6 @@
 package com.example.portfoliomanager;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -51,54 +49,5 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new MainFragment()).commit();
             bottomNavigationView.setSelectedItemId(R.id.home);
         }
-//         else {
-//            int m = savedInstanceState.getInt("menu_chosen");
-//            Log.e("", "onCreate: restore instance");
-//            switch (m) {
-//                case R.id.news:
-//                    bottomNavigationView.getMenu().findItem(R.id.news).setChecked(true);
-//                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new NewsFragment()).commit();
-//                    break;
-//                case R.id.home:
-//                    bottomNavigationView.getMenu().findItem(R.id.home).setChecked(true);
-//                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new MainFragment()).commit();
-//                    break;
-//                case R.id.portfolio:
-//                    bottomNavigationView.getMenu().findItem(R.id.portfolio).setChecked(true);
-//                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new PMFragment()).commit();
-//                    break;
-//            }
-//
-//        }
     }
-
-
-
-//    @Override
-//    public void onSaveInstanceState(Bundle savedInstanceState) {
-//        Log.e("", "onSaveInstanceState: saved");
-//        savedInstanceState.putInt("menu_chosen", bottomNavigationView.getSelectedItemId());
-//        super.onSaveInstanceState(savedInstanceState);
-//    }
-//
-//    @Override
-//    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-//        int t = savedInstanceState.getInt("menu_chosen");
-//
-//        switch (t) {
-//            case R.id.news:
-//                bottomNavigationView.getMenu().findItem(R.id.news).setChecked(true);
-//                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new NewsFragment()).commit();
-//                break;
-//            case R.id.home:
-//                bottomNavigationView.getMenu().findItem(R.id.home).setChecked(true);
-//                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new MainFragment()).commit();
-//                break;
-//            case R.id.portfolio:
-//                bottomNavigationView.getMenu().findItem(R.id.portfolio).setChecked(true);
-//                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new PMFragment()).commit();
-//                break;
-//        }
-//        super.onRestoreInstanceState(savedInstanceState);
-//    }
 }

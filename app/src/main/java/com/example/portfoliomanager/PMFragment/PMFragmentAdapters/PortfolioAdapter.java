@@ -3,14 +3,12 @@ package com.example.portfoliomanager.PMFragment.PMFragmentAdapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.portfoliomanager.Model.LocalDataSource.PortfolioCoin;
-import com.example.portfoliomanager.Model.RemoteDataSource.BinanceConverter.BinanceCoin;
 import com.example.portfoliomanager.R;
 
 import java.text.DecimalFormat;
@@ -24,7 +22,7 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.Coin
     @NonNull
     @Override
     public PortfolioAdapter.CoinHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.pm_fragment_recyclerview_item,parent,false);
+        View ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.pm_fragment_recyclerview_item, parent, false);
         return new PortfolioAdapter.CoinHolder(ItemView);
     }
 
@@ -41,7 +39,7 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.Coin
         return coins.size();
     }
 
-    public void setCoins(List<PortfolioCoin> coins){
+    public void setCoins(List<PortfolioCoin> coins) {
         this.coins = coins;
         notifyDataSetChanged();
     }
@@ -49,10 +47,12 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.Coin
     public void setOnItemClickListener(OnItemClickListenerPM listener) {
         onItemClickListener = listener;
     }
-    class CoinHolder extends RecyclerView.ViewHolder{
+
+    class CoinHolder extends RecyclerView.ViewHolder {
         private TextView textViewTicker;
         private TextView textViewQuantity;
         private TextView textViewTotalPrice;
+
         public CoinHolder(@NonNull View itemView) {
             super(itemView);
             textViewTicker = itemView.findViewById(R.id.pm_ticker);
@@ -62,7 +62,7 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.Coin
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
-                    if(onItemClickListener != null && pos != RecyclerView.NO_POSITION){
+                    if (onItemClickListener != null && pos != RecyclerView.NO_POSITION) {
                         onItemClickListener.onItemClick(coins.get(pos));
                     }
                 }
@@ -73,18 +73,18 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.Coin
     public interface OnItemClickListenerPM {
         void onItemClick(PortfolioCoin portfolioCoin);
     }
+
     public void setOnItemClickListenerPM(OnItemClickListenerPM listener) {
         onItemClickListener = listener;
     }
 
-    private String processNumbers(double num){
+    private String processNumbers(double num) {
         DecimalFormat df = new DecimalFormat("#.####");
         String result;
-        if(num >= 10E8){
+        if (num >= 10E8) {
             num /= 10E8;
-            result = Double.toString(num) + "B";
-        }
-        else{
+            result = num + "B";
+        } else {
             result = df.format(num);
         }
 

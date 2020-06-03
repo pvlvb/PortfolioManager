@@ -26,26 +26,25 @@ public class Repository {
     private MutableLiveData<LoadingStatus> newsStatus = new MutableLiveData<LoadingStatus>();
     private MutableLiveData<LoadingStatus> addCoinStatus = new MutableLiveData<LoadingStatus>();
 
-    public Repository(LocalDataSource localDataSource, RemoteDataSource remoteDataSource){
+    public Repository(LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
     }
 
-    public MutableLiveData<LoadingStatus> getStatus(){
+    public MutableLiveData<LoadingStatus> getStatus() {
         return status;
     }
 
-    public LiveData<List<Coin>> refreshTOPMC(){
+    public LiveData<List<Coin>> refreshTOPMC() {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
                 try {
                     Result tmp = remoteDataSource.updateTOPMC();
-                    if(tmp != null){
+                    if (tmp != null) {
                         localDataSource.putCoins(tmp, 0);
                         status.postValue(LoadingStatus.SUCCESSFUL);
-                    }
-                    else{
+                    } else {
                         status.postValue(LoadingStatus.FAILED);
 
                     }
@@ -56,17 +55,17 @@ public class Repository {
         });
         return localDataSource.getData();
     }
-    public LiveData<List<Coin>> refreshTOPGainers(){
+
+    public LiveData<List<Coin>> refreshTOPGainers() {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
                 try {
                     Result tmp = remoteDataSource.updateTOPGainers();
-                    if(tmp != null){
+                    if (tmp != null) {
                         localDataSource.putCoins(tmp, 5);
                         status.postValue(LoadingStatus.SUCCESSFUL);
-                    }
-                    else{
+                    } else {
                         status.postValue(LoadingStatus.FAILED);
                     }
                 } catch (IOException e) {
@@ -76,17 +75,17 @@ public class Repository {
         });
         return localDataSource.getGainers();
     }
-    public LiveData<List<Coin>> refreshTOPLosers(){
+
+    public LiveData<List<Coin>> refreshTOPLosers() {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
                 try {
                     Result tmp = remoteDataSource.updateTOPLosers();
-                    if(tmp != null){
-                        localDataSource.putCoins(tmp,10);
+                    if (tmp != null) {
+                        localDataSource.putCoins(tmp, 10);
                         status.postValue(LoadingStatus.SUCCESSFUL);
-                    }
-                    else{
+                    } else {
                         status.postValue(LoadingStatus.FAILED);
                     }
                 } catch (IOException e) {
@@ -98,27 +97,28 @@ public class Repository {
     }
 
 
-    public LiveData<List<News>> refreshNews(int page){
-        newsStatus.postValue(LoadingStatus.LOADING);
+    public void refreshNews(int page) {
+        newsStatus.setValue(LoadingStatus.LOADING);
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                if(page == 1) localDataSource.clearNews();
-                try{
-                    //Log.e("", "repository: " + page );
+                try {
+                    if (page == 1) localDataSource.clearNews();
                     com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.News tmp = remoteDataSource.updateNews(page);
-                    if(tmp!=null){
+                    if (tmp != null) {
                         newsStatus.postValue(LoadingStatus.SUCCESSFUL);
                         localDataSource.putNews(tmp);
-                    }
-                    else{
+                    } else {
                         newsStatus.postValue(LoadingStatus.FAILED);
                     }
-                } catch (IOException e){
-                    e.printStackTrace();;
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
+    }
+
+    public LiveData<List<News>> getNews() {
         return localDataSource.getNews();
     }
 
@@ -129,41 +129,38 @@ public class Repository {
     public void addPortfolioCoin(String ticker, double amount, double price_per_coin) {
         addCoinStatus.postValue(LoadingStatus.LOADING);
 
-            executorService.execute(new Runnable() {
-                @Override
-                public void run()
-                {
-                    List<String> existence = localDataSource.checkForExistence(ticker);
-                    if(existence.size()==0) {
-                        try {
-                            BinanceCoin result = remoteDataSource.getPrice(ticker);
-                            if (result == null) {
-                                addCoinStatus.postValue(LoadingStatus.TICKER_ERROR);
-                            } else {
-                                localDataSource.putPortfolioCoin(ticker, amount, price_per_coin, Double.parseDouble(result.getPrice()));
-                                addCoinStatus.postValue(LoadingStatus.ADDED);
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<String> existence = localDataSource.checkForExistence(ticker);
+                if (existence.size() == 0) {
+                    try {
+                        BinanceCoin result = remoteDataSource.getPrice(ticker);
+                        if (result == null) {
+                            addCoinStatus.postValue(LoadingStatus.TICKER_ERROR);
+                        } else {
+                            localDataSource.putPortfolioCoin(ticker, amount, price_per_coin, Double.parseDouble(result.getPrice()));
+                            addCoinStatus.postValue(LoadingStatus.ADDED);
                         }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    else{
-                        try {
-                            BinanceCoin result = remoteDataSource.getPrice(ticker);
-                            if(result == null){
-                                addCoinStatus.postValue(LoadingStatus.FAILED);
-                            }
-                            else{
-                                localDataSource.updatePortfolioCoin(ticker, amount, price_per_coin, Double.parseDouble(result.getPrice()));
-                                addCoinStatus.postValue(LoadingStatus.EDITED);
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                } else {
+                    try {
+                        BinanceCoin result = remoteDataSource.getPrice(ticker);
+                        if (result == null) {
+                            addCoinStatus.postValue(LoadingStatus.FAILED);
+                        } else {
+                            localDataSource.updatePortfolioCoin(ticker, amount, price_per_coin, Double.parseDouble(result.getPrice()));
+                            addCoinStatus.postValue(LoadingStatus.EDITED);
                         }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-
                 }
-            });
+
+            }
+        });
 
     }
 
@@ -177,12 +174,11 @@ public class Repository {
                     try {
                         BinanceCoin t = remoteDataSource.getPrice(tickers.get(i));
                         PortfolioCoin portfolioCoin = localDataSource.getOriginalCoinPrice(tickers.get(i));
-                        if(t==null){
+                        if (t == null) {
                             addCoinStatus.postValue(LoadingStatus.FAILED);
                             return;
-                        }
-                        else{
-                            localDataSource.updatePortfolioCoinPrice(tickers.get(i),portfolioCoin.getAmount(), Double.parseDouble(t.getPrice()));
+                        } else {
+                            localDataSource.updatePortfolioCoinPrice(tickers.get(i), portfolioCoin.getAmount(), Double.parseDouble(t.getPrice()));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -197,7 +193,7 @@ public class Repository {
         return localDataSource.getPortfolio();
     }
 
-    public LiveData<PortfolioValues> getPortfolioValues(){
+    public LiveData<PortfolioValues> getPortfolioValues() {
         return localDataSource.getPortfolioValues();
     }
 
@@ -212,13 +208,23 @@ public class Repository {
             @Override
             public void run() {
                 PortfolioCoin t = localDataSource.getOriginalCoinPrice(ticker);
-                if(amount == t.getAmount()){
+                if (amount == t.getAmount()) {
                     localDataSource.deletePortfolioCoin(ticker);
-                }
-                else{
-                    localDataSource.decreasePortfolioCoin(ticker, amount, t.getOriginal_total_price()/t.getAmount());
+                } else {
+                    localDataSource.decreasePortfolioCoin(ticker, amount, t.getOriginal_total_price() / t.getAmount());
                 }
                 addCoinStatus.postValue(LoadingStatus.EDITED);
+            }
+        });
+
+    }
+
+
+    public void clearNews() {
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                localDataSource.clearNews();
             }
         });
 

@@ -12,7 +12,7 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public interface CoinDAO  {
+public interface CoinDAO {
     //coin_table
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCoin(Coin coin);
@@ -82,8 +82,6 @@ public interface CoinDAO  {
 
     @Query("DELETE from portfolio where ticker = :ticker")
     void deletePortfolioCoin(String ticker);
-
-
 
 
 }

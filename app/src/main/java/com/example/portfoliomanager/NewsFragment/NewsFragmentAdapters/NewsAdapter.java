@@ -22,11 +22,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
     @Override
     public NewsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View ItemView;
-        if(viewType==0){
-            ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_fragment_news_item,parent,false);
-        }
-        else{
-            ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.no_more_news_item,parent,false);
+        if (viewType == 0) {
+            ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_fragment_news_item, parent, false);
+        } else {
+            ItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.no_more_news_item, parent, false);
         }
         return new NewsHolder(ItemView);
     }
@@ -34,18 +33,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
     @Override
     public void onBindViewHolder(@NonNull NewsHolder holder, int position) {
         News curr = newsList.get(position);
-        if(curr!=null) {
+        if (curr != null) {
             holder.textViewTicker.setText(curr.getTicker());
             holder.textViewTitle.setText(curr.getTitle());
             String time_posted;
             long t = curr.getTime_posted();
-            if(t >= 60 && t < 1440){
-                time_posted = t/60 + "h";
-            }
-            else if(t >= 1440){
-                time_posted = t/1440+"d";
-            }
-            else{
+            if (t >= 60 && t < 1440) {
+                time_posted = t / 60 + "h";
+            } else if (t >= 1440) {
+                time_posted = t / 1440 + "d";
+            } else {
                 time_posted = t + "m";
             }
             holder.textViewTime.setText(time_posted);
@@ -59,20 +56,22 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
         return newsList.size();
     }
 
-    public void setNews(List<News> newsList){
+    public void setNews(List<News> newsList) {
         this.newsList = newsList;
-        if(this.newsList.size()==200){
+
+        if (this.newsList != null && this.newsList.size() == 200) {
             addEndOfList();
         }
         notifyDataSetChanged();
     }
 
-    class NewsHolder extends RecyclerView.ViewHolder{
+    class NewsHolder extends RecyclerView.ViewHolder {
         private TextView textViewTime;
         private TextView textViewTitle;
         private TextView textViewTicker;
         private TextView textViewLiked;
         private TextView textViewDisliked;
+
         public NewsHolder(@NonNull View itemView) {
             super(itemView);
             textViewTime = itemView.findViewById(R.id.time);
@@ -84,7 +83,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
-                    if(onItemClickListener != null && pos != RecyclerView.NO_POSITION){
+                    if (onItemClickListener != null && pos != RecyclerView.NO_POSITION) {
                         onItemClickListener.onItemClick(newsList.get(pos));
                     }
                 }
@@ -95,18 +94,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
     public interface OnItemClickListener {
         void onItemClick(News news);
     }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         onItemClickListener = listener;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(newsList.get(position) != null) return 0;
+        if (newsList.get(position) != null) return 0;
         else return 1;
     }
 
-    public void addEndOfList(){
+    public void addEndOfList() {
         newsList.add(null);
-        notifyItemInserted(newsList.size()-1);
+        notifyItemInserted(newsList.size() - 1);
     }
 }

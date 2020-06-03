@@ -8,9 +8,7 @@ import com.example.portfoliomanager.Model.RemoteDataSource.NewsConverter.News;
 import com.example.portfoliomanager.PortfolioApp;
 
 import java.io.IOException;
-import java.util.Objects;
 
-import retrofit2.Callback;
 import retrofit2.Response;
 
 
@@ -21,72 +19,63 @@ public class RemoteDataSource {
     private CoinMarketCapAPI coinMarketCapAPI = PortfolioApp.getInstance().getCMCApi();
     private CryptoPanicAPI cryptoPanicAPI = PortfolioApp.getInstance().getCPApi();
     private BinanceAPI binanceAPI = PortfolioApp.getInstance().getBinanceAPI();
+
     public Result updateTOPMC() throws IOException {
-        try{
-            Response<Result> resp = coinMarketCapAPI.getData(1,5,"USD", 0,"market_cap", "desc", CMC_API_KEY).execute();
-            if(resp.isSuccessful()){
-                return (Result)resp.body();
-            }
-            else return null;
-        }
-        catch(Throwable throwable){
+        try {
+            Response<Result> resp = coinMarketCapAPI.getData(1, 5, "USD", 0, "market_cap", "desc", CMC_API_KEY).execute();
+            if (resp.isSuccessful()) {
+                return resp.body();
+            } else return null;
+        } catch (Throwable throwable) {
             //Log.e("Error text", throwable.toString());
             return null;
         }
     }
+
     public Result updateTOPGainers() throws IOException {
-        try{
-            Response<Result> resp = coinMarketCapAPI.getData(1,5,"USD", 100000000, "percent_change_24h", "desc", CMC_API_KEY).execute();
-            if(resp.isSuccessful()){
-                return (Result)resp.body();
-            }
-            else return null;
-        }
-        catch(Throwable throwable){
+        try {
+            Response<Result> resp = coinMarketCapAPI.getData(1, 5, "USD", 100000000, "percent_change_24h", "desc", CMC_API_KEY).execute();
+            if (resp.isSuccessful()) {
+                return resp.body();
+            } else return null;
+        } catch (Throwable throwable) {
             return null;
         }
 
     }
 
     public Result updateTOPLosers() throws IOException {
-        try{
-            Response<Result> resp = PortfolioApp.getInstance().getCMCApi().getData(1,5,"USD", 100000000, "percent_change_24h", "asc", CMC_API_KEY).execute();
-            if(resp.isSuccessful()){
-                return (Result)resp.body();
-            }
-            else return null;
-        }
-        catch(Throwable throwable){
+        try {
+            Response<Result> resp = PortfolioApp.getInstance().getCMCApi().getData(1, 5, "USD", 100000000, "percent_change_24h", "asc", CMC_API_KEY).execute();
+            if (resp.isSuccessful()) {
+                return resp.body();
+            } else return null;
+        } catch (Throwable throwable) {
             return null;
         }
 
 
-
     }
 
-    public News updateNews(int page) throws IOException{
-        try{
-            Log.e("", "updateNews: " + page );
-            Response<News> response = cryptoPanicAPI.getNews(CP_API_KEY,"en", page).execute();
-            if(response.isSuccessful()){
-                return (News)response.body();
-            }
-            else return null;
-        }
-        catch(Throwable throwable){
+    public News updateNews(int page) throws IOException {
+        try {
+            Log.e("", "updateNews: " + page);
+            Response<News> response = cryptoPanicAPI.getNews(CP_API_KEY, "en", page).execute();
+            if (response.isSuccessful()) {
+                return response.body();
+            } else return null;
+        } catch (Throwable throwable) {
             return null;
         }
     }
 
-    public BinanceCoin getPrice(String ticker) throws IOException{
-        try{
-            Response<BinanceCoin> response = binanceAPI.getData(ticker+BINANCE_TRADING_PAIR).execute();
-            if(response.isSuccessful()){
-                return (BinanceCoin)response.body();
-            }
-            else return null;
-        }
-        catch(Throwable throwable){
+    public BinanceCoin getPrice(String ticker) throws IOException {
+        try {
+            Response<BinanceCoin> response = binanceAPI.getData(ticker + BINANCE_TRADING_PAIR).execute();
+            if (response.isSuccessful()) {
+                return response.body();
+            } else return null;
+        } catch (Throwable throwable) {
             return null;
         }
     }

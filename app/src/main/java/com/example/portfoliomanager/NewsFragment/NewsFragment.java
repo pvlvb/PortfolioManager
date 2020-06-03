@@ -31,10 +31,10 @@ import com.example.portfoliomanager.R;
 import java.util.List;
 import java.util.Objects;
 
-public class NewsFragment extends Fragment{
+public class NewsFragment extends Fragment {
     private NewsFragmentViewModel newsFragmentViewModel = null;
     private LiveData<List<News>> newsList = null;
-    private MutableLiveData<LoadingStatus> loadingStatusNews=null;
+    private MutableLiveData<LoadingStatus> loadingStatusNews = null;
     private RecyclerView recyclerView;
     private EndlessScrollEventListener endlessScrollEventListener;
     private LinearLayoutManager linearLayoutManager;
@@ -61,7 +61,9 @@ public class NewsFragment extends Fragment{
         DividerItemDecoration itemDecor = new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecor);
         newsFragmentViewModel = new ViewModelProvider(this).get(NewsFragmentViewModel.class);
-        newsList = newsFragmentViewModel.getNews(1);
+        newsFragmentViewModel.updateNews(1);
+        newsList = newsFragmentViewModel.getNews();
+
         newsList.observe(getViewLifecycleOwner(), new Observer<List<News>>() {
             @Override
             public void onChanged(List<News> news) {
@@ -74,20 +76,21 @@ public class NewsFragment extends Fragment{
         loadingStatusNews.observe(getViewLifecycleOwner(), new Observer<LoadingStatus>() {
             @Override
             public void onChanged(LoadingStatus loadingStatus) {
-                if(loadingStatus == LoadingStatus.FAILED){
-                    if(linearLayoutManager.getItemCount()==0){
+                if (loadingStatus == LoadingStatus.FAILED) {
+                    if (linearLayoutManager.getItemCount() == 0) {
                         no_news_to_load.setVisibility(View.VISIBLE);
                     }
-                    Toast.makeText( getContext() , "Loading Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Loading Failed", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
-                if(loadingStatus == LoadingStatus.SUCCESSFUL) {
+                if (loadingStatus == LoadingStatus.SUCCESSFUL) {
                     no_news_to_load.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
                     swipeRefreshLayout.setRefreshing(false);
                 }
-                if(loadingStatus  == LoadingStatus.LOADING) {
-                    if(!swipeRefreshLayout.isRefreshing()){
+                if (loadingStatus == LoadingStatus.LOADING) {
+                    if (!swipeRefreshLayout.isRefreshing()) {
                         progressBar.setVisibility(View.VISIBLE);
                     }
                 }
@@ -98,7 +101,7 @@ public class NewsFragment extends Fragment{
         endlessScrollEventListener = new EndlessScrollEventListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int pageNum, RecyclerView recyclerView) {
-                newsFragmentViewModel.getNews(pageNum);
+                newsFragmentViewModel.updateNews(pageNum);
             }
         };
         recyclerView.addOnScrollListener(endlessScrollEventListener);
@@ -107,7 +110,7 @@ public class NewsFragment extends Fragment{
         newsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(News news) {
-                if(news != null){
+                if (news != null) {
                     String url = news.getUrl();
                     Intent open_browser = new Intent(Intent.ACTION_VIEW);
                     open_browser.setData(Uri.parse(url));
@@ -120,7 +123,7 @@ public class NewsFragment extends Fragment{
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                newsFragmentViewModel.getNews(1);
+                newsFragmentViewModel.updateNews(1);
             }
         });
 
