@@ -22,6 +22,7 @@ public class PortfolioApp extends Application {
     Retrofit CMCretrofit;
     Retrofit CPretrofit;
     Retrofit BNretorift;
+    private VMProviderFactory vmProviderFactory;
     private static CoinMarketCapAPI coinMarketCapAPI;
     private static CryptoPanicAPI cryptoPanicAPI;
     private static BinanceAPI binanceAPI;
@@ -29,6 +30,7 @@ public class PortfolioApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        vmProviderFactory = new VMProviderFactory();
         coinDB = CoinDB.getInstance(instance);
         CMCretrofit = new Retrofit.Builder().baseUrl("https://pro-api.coinmarketcap.com/").addConverterFactory(GsonConverterFactory.create()).build();
         coinMarketCapAPI = CMCretrofit.create(CoinMarketCapAPI.class);
@@ -51,5 +53,8 @@ public class PortfolioApp extends Application {
     public CoinMarketCapAPI getCMCApi(){return coinMarketCapAPI;}
     public CryptoPanicAPI getCPApi(){return cryptoPanicAPI;}
     public BinanceAPI getBinanceAPI(){ return binanceAPI; }
+    public ViewModelProvider.Factory getFactory(){
+        return vmProviderFactory;
+    }
 
 }

@@ -133,6 +133,7 @@ public class PMFragment extends Fragment {
                 }
                 if(loadingStatus == LoadingStatus.FAILED){
                     showMessage("Loading failed");
+                    swipeRefreshLayout.setRefreshing(true);
                 }
             }
         });
@@ -236,49 +237,54 @@ public class PMFragment extends Fragment {
 
         edit_price_per_coin = view.findViewById(R.id.enter_price_per_coin);
 
-
-
-
-        //TODO when decrease coins count average price of every coin and minus it
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity()).setView(view);
-        alertDialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        AlertDialog alertDialogBuilder = new AlertDialog.Builder(getActivity()).setView(view).setNegativeButton("Cancel",null)
+                .setPositiveButton("Add",null).create();
+        alertDialogBuilder.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if(edit_dec_inc_choose.getCheckedRadioButtonId() == -1 || edit_coin_amount.getText().toString().isEmpty()){
-                    showMessage("Please, decide what operation you want to do.");
-                }
-                else{
-                    if(coin_edit_method == true && !edit_price_per_coin.getText().toString().isEmpty()){
-                        onPositiveEditCoinClick(edit_coin_ticker_ui.getText().toString().toUpperCase(),Double.parseDouble(edit_coin_amount.getText().toString()),
-                                Double.parseDouble(edit_price_per_coin.getText().toString()),true);
-                    }
-                    else if (coin_edit_method == true && !edit_price_per_coin.getText().toString().isEmpty()){
-                        showMessage("Please, enter per coin price.");
-                    }
-                    else{
-                        if(Double.parseDouble(edit_coin_amount.getText().toString()) > 0 && Double.parseDouble(edit_coin_amount.getText().toString()) <= Double.parseDouble(edit_coin_amount_ui.getText().toString())){
-                            onPositiveEditCoinClick(edit_coin_ticker_ui.getText().toString(),Double.parseDouble(edit_coin_amount.getText().toString()),
-                                    0,false);
+            public void onShow(DialogInterface dialogInterface) {
+                Button pos_button = alertDialogBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+                pos_button.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        if(edit_dec_inc_choose.getCheckedRadioButtonId() == -1 || edit_coin_amount.getText().toString().isEmpty()){
+                            showMessage("Please, decide what operation you want to do.");
                         }
                         else{
-                            showMessage("You can't remove more than you have.");
-                        }
+                            if(coin_edit_method && !edit_price_per_coin.getText().toString().isEmpty()){
+                                onPositiveEditCoinClick(edit_coin_ticker_ui.getText().toString().toUpperCase(),Double.parseDouble(edit_coin_amount.getText().toString()),
+                                        Double.parseDouble(edit_price_per_coin.getText().toString()),true);
+                                closeEditCoinDialog();
+                            }
+                            else if (coin_edit_method && !edit_price_per_coin.getText().toString().isEmpty()){
+                                showMessage("Please, enter per coin price.");
+                            }
+                            else{
+                                if(Double.parseDouble(edit_coin_amount.getText().toString()) > 0 && Double.parseDouble(edit_coin_amount.getText().toString()) <= Double.parseDouble(edit_coin_amount_ui.getText().toString())){
+                                    onPositiveEditCoinClick(edit_coin_ticker_ui.getText().toString(),Double.parseDouble(edit_coin_amount.getText().toString()),
+                                            0,false);
+                                }
+                                else{
+                                    showMessage("You can't remove more than you have.");
+                                }
 
+                            }
+                        }
                     }
-                }
+                });
+                Button neg_button = alertDialogBuilder.getButton(AlertDialog.BUTTON_NEGATIVE);
+                neg_button.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        enter_ticker.setText("");
+                        enter_amount.setText("");
+                        enter_price_per_coin.setText("");
+                        closeEditCoinDialog();
+                    }
+                });
             }
         });
-        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                enter_ticker.setText("");
-                enter_amount.setText("");
-                enter_price_per_coin.setText("");
-                closeEditCoinDialog();
-            }
-        });
-        return alertDialogBuilder.create();
+
+        return alertDialogBuilder;
     }
 
     private void showEditCoinDialog() {

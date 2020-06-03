@@ -155,7 +155,7 @@ public class Repository {
                             }
                             else{
                                 localDataSource.updatePortfolioCoin(ticker, amount, price_per_coin, Double.parseDouble(result.getPrice()));
-                                addCoinStatus.postValue(LoadingStatus.ADDED);
+                                addCoinStatus.postValue(LoadingStatus.EDITED);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
